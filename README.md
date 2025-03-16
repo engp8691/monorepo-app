@@ -80,3 +80,14 @@ And join the Nx community:
 - [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
 - [Our Youtube channel](https://www.youtube.com/@nxdevtools)
 - [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+
+
+The commands to do the test
+
+- npx vitest run apps/frontend/src/app/app.test.tsx
+- npx nx test frontend
+- npx nx test backend
+- npx nx serve frontend
+- npx nx serve backend
+- npx nx run frontend:storybook
+- npx nx run frontend-e2e:e2e
