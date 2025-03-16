@@ -6,6 +6,7 @@
   "private": true,
   "dependencies": {
     "@fastify/autoload": "~6.0.3",
+    "@fastify/cors": "^11.0.0",
     "@fastify/sensible": "~6.0.2",
     "axios": "^1.6.0",
     "fastify": "~5.2.1",
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
+    "@faker-js/faker": "^9.6.0",
     "@nx/devkit": "20.6.0",
     "@nx/esbuild": "20.6.0",
     "@nx/eslint": "20.6.0",

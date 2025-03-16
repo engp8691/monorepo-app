@@ -15,7 +15,7 @@ export const Default: Story = {
   parameters: {
     msw: [
       http.get("http://localhost:5000/greeting", async () => {
-        return HttpResponse.json({ greeting: "Hello" });
+        return HttpResponse.json({ greeting: "Hello Mock" });
       }),
     ],
   },

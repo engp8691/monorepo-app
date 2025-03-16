@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import Greeting from "./Greeting";
 import { vi } from "vitest";
 
@@ -18,9 +19,9 @@ describe("Greeting Component", () => {
     global.fetch = vi.fn(() =>
       Promise.resolve({
         ok: true,
-        json: () => Promise.resolve({ greeting: "Hello, Vitest!" }),
+        json: () => Promise.resolve({ greeting: 'Hello, Vitest!' }),
       })
-    ) as jest.Mock;
+    ) as unknown as ReturnType<typeof vi.fn>;
 
     render(<Greeting />);
 
