@@ -12,5 +12,10 @@
     {
       "path": "./apps/backend"
     }
-  ]
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  }
 }

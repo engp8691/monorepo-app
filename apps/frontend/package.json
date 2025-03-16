@@ -4,5 +4,10 @@
   "private": true,
   "nx": {
     "name": "frontend"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }
