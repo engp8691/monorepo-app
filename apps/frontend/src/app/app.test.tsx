@@ -19,7 +19,7 @@ describe('App', () => {
       Promise.resolve({
         ok: true,
         json: () => Promise.resolve({
-          greeting: 'Hello, Worl!',
+          greeting: 'Hello, World!',
          }),
       })
     ) as unknown as ReturnType<typeof vi.fn>
