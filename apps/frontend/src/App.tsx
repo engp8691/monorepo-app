@@ -1,9 +1,9 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { lazy, Suspense } from 'react'
 
 // Lazy-loaded components
-const Home = lazy(() => import("./pages/Home"));
-const About = lazy(() => import("./pages/About"));
+const Home = lazy(() => import('./pages/Home'))
+const About = lazy(() => import('./pages/About'))
 
 const AppRouter: React.FC = () => {
   return (
@@ -19,7 +19,7 @@ const AppRouter: React.FC = () => {
         </Routes>
       </Suspense>
     </BrowserRouter>
-  );
-};
+  )
+}
 
-export default AppRouter;
+export default AppRouter

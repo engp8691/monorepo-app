@@ -1,35 +1,35 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import "@testing-library/jest-dom";
-import { vi } from "vitest";
+import { render, screen, waitFor } from '@testing-library/react'
+import '@testing-library/jest-dom'
+import { vi } from 'vitest'
 
-import App from './app';
+import App from './app'
 
 beforeEach(() => {
-  vi.restoreAllMocks();
-});
+  vi.restoreAllMocks()
+})
 
 describe('App', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<App />);
-    expect(baseElement).toBeTruthy();
-  });
+    const { baseElement } = render(<App />)
+    expect(baseElement).toBeTruthy()
+  })
 
   it('should have a greeting as the title', async () => {
     global.fetch = vi.fn(() =>
       Promise.resolve({
         ok: true,
         json: () => Promise.resolve({
-          greeting: "Hello",
+          greeting: 'Hello',
          }),
       })
-    ) as unknown as ReturnType<typeof vi.fn>;
+    ) as unknown as ReturnType<typeof vi.fn>
 
-    render(<App />);
+    render(<App />)
 
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    expect(screen.getByText('Loading...')).toBeInTheDocument()
 
     await waitFor(() => {
-      expect(screen.getByText(/Hello/i)).toBeInTheDocument();
-    });
-  });
-});
+      expect(screen.getByText(/Hello/i)).toBeInTheDocument()
+    })
+  })
+})
