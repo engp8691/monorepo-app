@@ -1,4 +1,4 @@
-import { FastifyInstance } from 'fastify';
+import { FastifyInstance } from 'fastify'
 import fp from 'fastify-plugin'
 import type { FastifySensibleOptions } from '@fastify/sensible'
 import sensible from '@fastify/sensible'

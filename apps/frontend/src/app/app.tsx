@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
 export function App() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<any>(null)
 
   useEffect(() => {
     fetch('http://localhost:3000/greeting?username=John', {
@@ -13,8 +13,8 @@ export function App() {
     })
     .then((res) => res.json())
     .then((data) => setData(data))
-    .catch((error) => console.error('Error fetching data:', error));
-  }, []);
+    .catch((error) => console.error('Error fetching data:', error))
+  }, [])
 
   return (
     <div>
@@ -27,7 +27,7 @@ export function App() {
         <p>Loading...</p>
       )}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

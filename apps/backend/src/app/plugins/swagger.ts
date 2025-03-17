@@ -1,7 +1,7 @@
-import fp from 'fastify-plugin';
-import swagger from '@fastify/swagger';
-import swaggerUI from '@fastify/swagger-ui';
-import { FastifyPluginAsync } from 'fastify';
+import fp from 'fastify-plugin'
+import swagger from '@fastify/swagger'
+import swaggerUI from '@fastify/swagger-ui'
+import { FastifyPluginAsync } from 'fastify'
 
 const swaggerPlugin: FastifyPluginAsync = async (fastify) => {
   await fastify.register(swagger, {
@@ -13,7 +13,7 @@ const swaggerPlugin: FastifyPluginAsync = async (fastify) => {
       },
       servers: [{ url: 'http://localhost:3000' }],
     },
-  });
+  })
 
   await fastify.register(swaggerUI, {
     routePrefix: '/docs',
@@ -21,9 +21,9 @@ const swaggerPlugin: FastifyPluginAsync = async (fastify) => {
       docExpansion: 'list',
       deepLinking: false,
     },
-  });
+  })
 
-  fastify.log.info('Swagger documentation available at /docs');
-};
+  fastify.log.info('Swagger documentation available at /docs')
+}
 
-export default fp(swaggerPlugin);
+export default fp(swaggerPlugin)

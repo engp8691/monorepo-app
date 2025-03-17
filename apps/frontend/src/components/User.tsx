@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 
 interface UserType {
   id: number;
@@ -6,21 +6,21 @@ interface UserType {
 }
 
 const User: React.FC = () => {
-  const [user, setUser] = useState<UserType | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<UserType | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users/1')
       .then((response) => response.json())
       .then((data) => {
-        setUser(data);
-        setLoading(false);
+        setUser(data)
+        setLoading(false)
       })
-      .catch(() => setLoading(false));
-  }, []);
+      .catch(() => setLoading(false))
+  }, [])
 
-  if (loading) return <p>Loading...</p>;
-  return <div>{user ? <h1>{user.name}</h1> : <p>Error: No user found</p>}</div>;
-};
+  if (loading) return <p>Loading...</p>
+  return <div>{user ? <h1>{user.name}</h1> : <p>Error: No user found</p>}</div>
+}
 
-export default User;
+export default User

@@ -1,4 +1,4 @@
-import { FastifyPluginAsync } from 'fastify';
+import { FastifyPluginAsync } from 'fastify'
 
 const pingRoute: FastifyPluginAsync = async (fastify) => {
   fastify.get(
@@ -18,9 +18,9 @@ const pingRoute: FastifyPluginAsync = async (fastify) => {
       },
     },
     async () => {
-      return { message: 'pong' };
+      return { message: 'pong' }
     }
-  );
-};
+  )
+}
 
-export default pingRoute;
+export default pingRoute
