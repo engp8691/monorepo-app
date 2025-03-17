@@ -19,7 +19,7 @@ describe('App', () => {
       Promise.resolve({
         ok: true,
         json: () => Promise.resolve({
-          greeting: 'Hello',
+          greeting: 'Hello, Worl!',
          }),
       })
     ) as unknown as ReturnType<typeof vi.fn>
@@ -29,7 +29,7 @@ describe('App', () => {
     expect(screen.getByText('Loading...')).toBeInTheDocument()
 
     await waitFor(() => {
-      expect(screen.getByText(/Hello/i)).toBeInTheDocument()
+      expect(screen.getByText(/Hello, World!/i)).toBeInTheDocument()
     })
   })
 })
