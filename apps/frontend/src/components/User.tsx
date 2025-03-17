@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 interface UserType {
   id: number;
@@ -10,7 +10,7 @@ const User: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users/1")
+    fetch('https://jsonplaceholder.typicode.com/users/1')
       .then((response) => response.json())
       .then((data) => {
         setUser(data);

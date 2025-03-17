@@ -1,20 +1,20 @@
-import fp from "fastify-plugin";
-import env, { FastifyEnvOptions } from "@fastify/env";
+import fp from 'fastify-plugin';
+import env, { FastifyEnvOptions } from '@fastify/env';
 
 const schema = {
-  type: "object",
-  required: ["PORT"],
+  type: 'object',
+  required: ['PORT'],
   properties: {
     PORT: {
-      type: "string", // Must be a string, not a number
-      default: "3000",
+      type: 'string', // Must be a string, not a number
+      default: '3000',
     },
   },
 };
 
 // Define plugin options with correct typing
 const options: FastifyEnvOptions = {
-  confKey: "config", // Optional, default: 'config'
+  confKey: 'config', // Optional, default: 'config'
   schema,
   dotenv: true, // Enables .env file support
 };

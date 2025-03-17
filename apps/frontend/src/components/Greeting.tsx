@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-const API_URL = "http://localhost:5000/greeting";
+const API_URL = 'http://localhost:5000/greeting';
 
 interface GreetingResponse {
     greeting: string;
@@ -14,7 +14,7 @@ const Greeting = () => {
         const fetchGreeting = async () => {
             try {
                 const response = await fetch(API_URL);
-                if (!response.ok) throw new Error("Failed to fetch greeting");
+                if (!response.ok) throw new Error('Failed to fetch greeting');
                 const data: GreetingResponse = await response.json();
                 setGreeting(data.greeting);
             } catch (err) {
@@ -26,7 +26,7 @@ const Greeting = () => {
     }, []);
 
     if (error) return <p>Error: {error}</p>;
-    return <p>{greeting ? greeting : "Loading..."}</p>;
+    return <p>{greeting ? greeting : 'Loading...'}</p>;
 };
 
 export default Greeting;

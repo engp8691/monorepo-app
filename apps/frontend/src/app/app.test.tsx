@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import "@testing-library/jest-dom";
-import { vi } from "vitest";
+import '@testing-library/jest-dom';
+import { vi } from 'vitest';
 
 import App from './app';
 
@@ -19,14 +19,14 @@ describe('App', () => {
       Promise.resolve({
         ok: true,
         json: () => Promise.resolve({
-          greeting: "Hello",
+          greeting: 'Hello',
          }),
       })
     ) as unknown as ReturnType<typeof vi.fn>;
 
     render(<App />);
 
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
 
     await waitFor(() => {
       expect(screen.getByText(/Hello/i)).toBeInTheDocument();

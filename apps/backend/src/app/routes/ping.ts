@@ -1,24 +1,24 @@
-import { FastifyPluginAsync } from "fastify";
+import { FastifyPluginAsync } from 'fastify';
 
 const pingRoute: FastifyPluginAsync = async (fastify) => {
   fastify.get(
-    "/ping",
+    '/ping',
     {
       schema: {
-        description: "Ping endpoint",
+        description: 'Ping endpoint',
         response: {
           200: {
-            description: "Successful response",
-            type: "object",
+            description: 'Successful response',
+            type: 'object',
             properties: {
-              message: { type: "string" },
+              message: { type: 'string' },
             },
           },
         },
       },
     },
     async () => {
-      return { message: "pong" };
+      return { message: 'pong' };
     }
   );
 };

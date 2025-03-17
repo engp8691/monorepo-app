@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export function App() {
   const [data, setData] = useState<any>(null);
@@ -13,7 +13,7 @@ export function App() {
     })
     .then((res) => res.json())
     .then((data) => setData(data))
-    .catch((error) => console.error("Error fetching data:", error));
+    .catch((error) => console.error('Error fetching data:', error));
   }, []);
 
   return (
