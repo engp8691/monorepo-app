@@ -9,10 +9,7 @@ export interface AppOptions {}
 export async function app(fastify: FastifyInstance, opts: AppOptions) {
   // Place here your custom code!
   await sequelize.authenticate()
-  console.log('✅ Connected to PostgreSQL')
-
   await sequelize.sync()
-  console.log('✅ Models synchronized')
 
 
   // Do not touch the following lines
