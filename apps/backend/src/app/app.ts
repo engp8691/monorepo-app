@@ -1,12 +1,16 @@
 import * as path from 'path'
 import { FastifyInstance } from 'fastify'
 import AutoLoad from '@fastify/autoload'
+import sequelize from '../utils/sequelize'
 
 /* eslint-disable-next-line */
 export interface AppOptions {}
 
 export async function app(fastify: FastifyInstance, opts: AppOptions) {
   // Place here your custom code!
+  await sequelize.authenticate()
+  await sequelize.sync()
+
 
   // Do not touch the following lines
 
