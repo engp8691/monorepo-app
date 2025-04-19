@@ -1,11 +1,23 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
+import { QueryResult, useQuery } from './hooks'
+import React from 'react'
 
+type Student = {
+  name: string
+  grade: number
+}
 // Lazy-loaded components
 const Home = lazy(() => import('./pages/Home'))
 const About = lazy(() => import('./pages/About'))
 
 const AppRouter: React.FC = () => {
+  const {data, isFetching, error, refetch}: QueryResult<Student> = useQuery('https://jsonplaceholder.typicode.com/users/1')
+  if (error) {
+    refetch()
+  }
+
+  console.log(99917, data, isFetching, error)
   return (
     <BrowserRouter>
       <nav>
