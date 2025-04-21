@@ -37,3 +37,15 @@ export const useQuery = <T>(url: string): QueryResult<T> => {
 
     return { data, isFetching, error, refetch: fetchData }
 }
+
+export type Reducer = <S, A>(state: S, action: A) =>  S
+
+export const useMyReducer = <S, A>(reducer:Reducer, initialState: S) => {
+    const [state, setState] = useState(initialState)
+
+    const dispatch = useCallback((action: A) => {
+        setState(prevState => reducer(prevState, action))
+    }, [reducer])
+
+    return [state, dispatch]
+}
