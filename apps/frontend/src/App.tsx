@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import { QueryResult, useQuery } from './hooks'
+// import ChatBox from './components/test_layout_effect/expanding_messages'
 import React from 'react'
+import { FlickingBox } from './components/test-hooks'
 
 type Student = {
   name: string
@@ -21,13 +23,14 @@ const AppRouter: React.FC = () => {
   return (
     <BrowserRouter>
       <nav>
-        <Link to="/">Home</Link> | <Link to="/about">About</Link>
+        <Link to="/">Home</Link> | <Link to="/about">About</Link> | <Link to="/tests">Tests</Link>
       </nav>
 
       <Suspense fallback={<h2>Loading...</h2>}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/tests" element={<FlickingBox />} />
         </Routes>
       </Suspense>
     </BrowserRouter>
