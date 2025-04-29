@@ -7,6 +7,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import { theme } from '../../theme/theme'
+// import { theme } from '../../theme/theme2'
 
 const statesUSA = [
   { label: 'California', value: 'CA' },
