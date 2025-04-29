@@ -5,14 +5,13 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import { theme } from '../../theme/theme'
 
-interface IFormInput {
-  name: string;
-  email: string;
-  age: number;
-  gender: string;
-  country: string;
-  acceptedTerms: boolean;
-}
+const statesUSA = [
+  { label: 'California', value: 'CA' },
+  { label: 'New York', value: 'NY' },
+  { label: 'Texas', value: 'TX' },
+  { label: 'Florida', value: 'FL' },
+  { label: 'Illinois', value: 'IL' },
+]
 
 const schema = Yup.object({
   name: Yup.string().required('Name is required'),
@@ -20,7 +19,6 @@ const schema = Yup.object({
   age: Yup
     .number()
     .transform((value, originalValue) => {
-      console.log(999992553, value, originalValue)
       return originalValue === '' ? undefined : value
     })
     .required('Age is required')
@@ -32,16 +30,32 @@ const schema = Yup.object({
     }),
   gender: Yup.string().required('Gender is required'),
   country: Yup.string().required('Country is required'),
+  state: Yup.string().when('country', {
+    is: (val: string) => val === 'usa',
+    then: (schema) => schema.required('State is required when country is USA'),
+    otherwise: (schema) => schema.optional(),
+  }),
   acceptedTerms: Yup.boolean().oneOf([true], 'You must accept the terms and conditions').required(),
 }).required()
 
+type IFormInput = Yup.InferType<typeof schema>;
+
 const UserForm: React.FC = () => {
   const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<IFormInput>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as any,
   })
 
+  const country = watch('country')
+
+  React.useEffect(() => {
+    if (country !== 'usa') {
+      setValue('state', '')
+    }
+  }, [country, setValue])
+
+
   const onSubmit = (data: IFormInput) => {
-    console.log(data)
+    console.log(999959, data)
   }
 
   return (
@@ -116,6 +130,23 @@ const UserForm: React.FC = () => {
               </Select>
               <FormErrorMessage role="alert">{errors.country?.message}</FormErrorMessage>
             </FormControl>
+
+            {country === 'usa' && (
+              <FormControl isInvalid={!!errors.state}>
+                <FormLabel htmlFor='state'>State</FormLabel>
+                <Select
+                  id="state"
+                  placeholder="Select state"
+                  {...register('state')}
+                >
+                  {statesUSA.map((state) => (
+                    <option key={state.value} value={state.value}>
+                      {state.label}
+                    </option>
+                  ))}
+                </Select>
+                <FormErrorMessage role="alert">{errors.state?.message}</FormErrorMessage>
+              </FormControl>)}
 
             {/* Terms Checkbox */}
             <FormControl isInvalid={!!errors.acceptedTerms}>

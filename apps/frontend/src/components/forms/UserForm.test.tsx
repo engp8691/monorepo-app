@@ -55,11 +55,15 @@ describe('UserForm', () => {
     await user.type(within(theForm).getByTestId('name'), 'John')
     await user.type(within(theForm).getByTestId('email'), 'test@example.com')
     await user.type(within(theForm).getByTestId('age'), '30')
-    await user.selectOptions(within(theForm).getByLabelText(/country/i), 'USA')
+    await user.selectOptions(within(theForm).getByLabelText(/country/i), 'usa')
     await user.click(within(theForm).getByLabelText(/I accept the terms and conditions/gi))
     await user.click(within(theForm).getByLabelText('Male'))
 
     await user.click(within(theForm).getByRole('button', { name: /submit/i }))
+    expect(await within(theForm).queryByText('State is required when country is USA')).toBeInTheDocument()
+    expect(await within(theForm).queryAllByRole('alert')).toHaveLength(1)
+
+    await user.selectOptions(within(theForm).getByLabelText(/state/i), 'NY')
     expect(await within(theForm).queryAllByRole('alert')).toHaveLength(0)
   })
 })
