@@ -17,7 +17,19 @@ interface IFormInput {
 const schema = Yup.object({
   name: Yup.string().required('Name is required'),
   email: Yup.string().email('Invalid email address').required('Email is required'),
-  age: Yup.number().required('Age is required').min(18, 'You must be at least 18 years old'),
+  age: Yup
+    .number()
+    .transform((value, originalValue) => {
+      console.log(999992553, value, originalValue)
+      return originalValue === '' ? undefined : value
+    })
+    .required('Age is required')
+    .typeError('Age must be a valid number')
+    .min(18, 'You must be at least 18 years old')
+    .test('is-possible', 'Age must be less than 199', (value) => {
+      if (value === undefined) return true
+      return value < 199
+    }),
   gender: Yup.string().required('Gender is required'),
   country: Yup.string().required('Country is required'),
   acceptedTerms: Yup.boolean().oneOf([true], 'You must accept the terms and conditions').required(),
@@ -35,7 +47,7 @@ const UserForm: React.FC = () => {
   return (
     <ChakraProvider theme={theme}>
       <Box maxW="md" mx="auto" mt="10" p="5" borderWidth="1px" borderRadius="lg">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate data-testid="the-form-test-id">
           <VStack spacing={4} align="flex-start">
             {/* Name Input */}
             <FormControl isInvalid={!!errors.name}>
@@ -44,8 +56,9 @@ const UserForm: React.FC = () => {
                 id="name"
                 type="text"
                 {...register('name')}
+                data-testid="name"
               />
-              <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+              <FormErrorMessage role="alert">{errors.name?.message}</FormErrorMessage>
             </FormControl>
 
             {/* Email Input */}
@@ -57,7 +70,7 @@ const UserForm: React.FC = () => {
                 {...register('email')}
                 data-testid="email"
               />
-              <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+              <FormErrorMessage role="alert">{errors.email?.message}</FormErrorMessage>
             </FormControl>
 
             {/* Age Input */}
@@ -67,8 +80,9 @@ const UserForm: React.FC = () => {
                 id="age"
                 type="number"
                 {...register('age')}
+                data-testid="age"
               />
-              <FormErrorMessage>{errors.age?.message}</FormErrorMessage>
+              <FormErrorMessage role="alert">{errors.age?.message}</FormErrorMessage>
             </FormControl>
 
             <FormControl isInvalid={!!errors.gender}>
@@ -84,7 +98,7 @@ const UserForm: React.FC = () => {
                   <Radio value="other">Other</Radio>
                 </HStack>
               </RadioGroup>
-              <FormErrorMessage>{errors.gender?.message}</FormErrorMessage>
+              <FormErrorMessage role="alert">{errors.gender?.message}</FormErrorMessage>
             </FormControl>
 
             {/* Country Select */}
@@ -100,7 +114,7 @@ const UserForm: React.FC = () => {
                 <option value="uk">United Kingdom</option>
                 <option value="australia">Australia</option>
               </Select>
-              <FormErrorMessage>{errors.country?.message}</FormErrorMessage>
+              <FormErrorMessage role="alert">{errors.country?.message}</FormErrorMessage>
             </FormControl>
 
             {/* Terms Checkbox */}
@@ -114,7 +128,7 @@ const UserForm: React.FC = () => {
                   I accept the terms and conditions
                 </Checkbox>
               </HStack>
-              <FormErrorMessage>{errors.acceptedTerms?.message}</FormErrorMessage>
+              <FormErrorMessage role="alert">{errors.acceptedTerms?.message}</FormErrorMessage>
             </FormControl>
 
             {/* Submit Button */}

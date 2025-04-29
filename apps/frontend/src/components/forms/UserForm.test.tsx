@@ -1,13 +1,12 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { expect, it } from 'vitest'
 
 import userEvent from '@testing-library/user-event'
 import { ChakraProvider } from '@chakra-ui/react'
 import { FormProvider, useForm } from 'react-hook-form'
-import UserForm from './UserForm' // ⬅️ Update this to your form path
+import UserForm from './UserForm'
 
-// Helper to render inside ChakraProvider and FormProvider
 const renderWithProviders = (ui: React.ReactElement) => {
   const Wrapper = ({ children }: { children: React.ReactNode }) => {
     const methods = useForm({
@@ -42,24 +41,25 @@ describe('UserForm', () => {
   it('shows validation errors on submit', async () => {
     const user = userEvent.setup()
     renderWithProviders(<UserForm />)
-
     await user.click(screen.getByRole('button', { name: /submit/i }))
-
-    // expect(await screen.findAllByRole('alert')).toHaveLength(4)
+    const alerts = await screen.findAllByRole('alert')
+    expect(alerts).toHaveLength(6)
   })
 
   it('submits the form when filled correctly', async () => {
     const user = userEvent.setup()
     renderWithProviders(<UserForm />)
 
-    await user.type(screen.getByTestId('email'), 'test@example.com')
-    await user.selectOptions(screen.getByLabelText(/country/i), 'USA')
-    await user.click(screen.getByLabelText(/I accept the terms and conditions/gi))
-    await user.click(screen.getByLabelText('Male')) // Assuming "Male" is one of the options
+    const theForm = screen.getByTestId('the-form-test-id')
 
-    await user.click(screen.getByRole('button', { name: /submit/i }))
+    await user.type(within(theForm).getByTestId('name'), 'John')
+    await user.type(within(theForm).getByTestId('email'), 'test@example.com')
+    await user.type(within(theForm).getByTestId('age'), '30')
+    await user.selectOptions(within(theForm).getByLabelText(/country/i), 'USA')
+    await user.click(within(theForm).getByLabelText(/I accept the terms and conditions/gi))
+    await user.click(within(theForm).getByLabelText('Male'))
 
-    // After correct submission, there should be no errors
-    // expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    await user.click(within(theForm).getByRole('button', { name: /submit/i }))
+    expect(await within(theForm).queryAllByRole('alert')).toHaveLength(0)
   })
 })
