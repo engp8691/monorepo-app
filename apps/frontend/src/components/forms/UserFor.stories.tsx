@@ -9,9 +9,7 @@ const meta: Meta<typeof UserForm> = {
   decorators: [
     (Story) => (
       <ChakraProvider theme={theme}>
-        <Box p={8} maxW="600px">
-          <Story />
-        </Box>
+        <Story />
       </ChakraProvider>
     ),
   ],
