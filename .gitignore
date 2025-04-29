@@ -47,3 +47,6 @@ test-output
 
 
 storybook-static
+
+/playground/*
+/apps/frontend/src/playground/*

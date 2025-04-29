@@ -11,9 +11,9 @@ export function App() {
         'Content-Type': 'application/json',
       },
     })
-    .then((res) => res.json())
-    .then((data) => setData(data))
-    .catch((error) => console.error('Error fetching data:', error))
+      .then((res) => res.json())
+      .then((data) => setData(data))
+      .catch((error) => console.error('Error fetching data:', error))
   }, [])
 
   return (
