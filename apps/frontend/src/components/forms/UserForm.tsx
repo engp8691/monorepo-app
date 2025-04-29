@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { ChakraProvider, Box, Button, FormControl, FormLabel, Input, FormErrorMessage, Select, Checkbox, RadioGroup, Radio, VStack, HStack } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
+import { theme } from '../../theme/theme'
 
 interface IFormInput {
   name: string;
@@ -32,7 +33,7 @@ const UserForm: React.FC = () => {
   }
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <Box maxW="md" mx="auto" mt="10" p="5" borderWidth="1px" borderRadius="lg">
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spacing={4} align="flex-start">
@@ -54,6 +55,7 @@ const UserForm: React.FC = () => {
                 id="email"
                 type="email"
                 {...register('email')}
+                data-testid="email"
               />
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
@@ -69,10 +71,10 @@ const UserForm: React.FC = () => {
               <FormErrorMessage>{errors.age?.message}</FormErrorMessage>
             </FormControl>
 
-            {/* Gender as Radio Group */}
             <FormControl isInvalid={!!errors.gender}>
-              <FormLabel>Gender</FormLabel>
+              <FormLabel id="gender-label">Gender</FormLabel>
               <RadioGroup
+                aria-labelledby="gender-label"
                 onChange={(value) => setValue('gender', value, { shouldValidate: true })}
                 value={watch('gender')}
               >
@@ -106,6 +108,7 @@ const UserForm: React.FC = () => {
               <HStack>
                 <Checkbox
                   id="acceptedTerms"
+                  data-testid="acceptedTerms"
                   {...register('acceptedTerms')}
                 >
                   I accept the terms and conditions
