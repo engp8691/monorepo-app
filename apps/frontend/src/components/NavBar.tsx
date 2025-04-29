@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom'
 
 const Navbar = () => {
   return (
-    <Box bg="teal.500" px={4} py={2}>
+    <Box bg="gray.400" px={4} py={2}>
       <Flex h={16} alignItems="center" justifyContent="space-between">
         <HStack spacing={6}>
           <ChakraLink as={RouterLink} to="/" color="white" fontWeight="bold">
