@@ -5,6 +5,10 @@ import { QueryResult, useQuery } from './hooks'
 import React from 'react'
 import DynamicForm from './components/forms/DynamicForm'
 import UserForm from './components/forms/UserForm'
+import { ChakraProvider } from '@chakra-ui/react'
+import { theme } from './theme/theme'
+import Navbar from './components/NavBar'
+// import { theme } from './theme/theme2'
 
 type Student = {
   name: string
@@ -22,20 +26,22 @@ const AppRouter: React.FC = () => {
 
   console.log(99917, data, isFetching, error)
   return (
-    <BrowserRouter>
-      <nav>
-        <Link to="/">Home</Link> | <Link to="/about">About</Link> | <Link to="/tests">Tests</Link> | <Link to="/forms">Forms</Link>
-      </nav>
+    <ChakraProvider theme={theme}>
 
-      <Suspense fallback={<h2>Loading...</h2>}>
-        <Routes>
-          <Route path="/" element={<UserForm />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/tests" element={<Home />} />
-          <Route path="/forms" element={<DynamicForm />} />
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Navbar />
+        
+        <Suspense fallback={<h2>Loading...</h2>}>
+          <Routes>
+            <Route path="/" element={<UserForm />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/tests" element={<Home />} />
+            <Route path="/forms" element={<DynamicForm />} />
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
+    </ChakraProvider >
+
   )
 }
 

@@ -1,13 +1,11 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import {
-  ChakraProvider, Button, FormControl, FormLabel, Input, FormErrorMessage, Select,
+  Button, FormControl, FormLabel, Input, FormErrorMessage, Select,
   Checkbox, RadioGroup, Radio, VStack, HStack, SimpleGrid, Box, Flex, GridItem
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
-import { theme } from '../../theme/theme'
-// import { theme } from '../../theme/theme2'
 
 const statesUSA = [
   { label: 'California', value: 'CA' },
@@ -59,123 +57,121 @@ const UserForm: React.FC = () => {
   }
 
   return (
-    <ChakraProvider theme={theme}>
-      <form onSubmit={handleSubmit(onSubmit)} noValidate data-testid="the-form-test-id">
-        <Box borderWidth="1px" borderColor="gray.100" m={6} borderRadius="lg">
-          <VStack spacing={4} p={6} align="stretch" w="100%">
-            <SimpleGrid
-              columns={{ base: 1, md: 2, lg: 3 }}
-              spacing={4}
-              w="100%"
-            >
-              <GridItem>
-                <FormControl isInvalid={!!errors.name}>
-                  <FormLabel htmlFor="name">Name</FormLabel>
-                  <Input
-                    id="name"
-                    type="text"
-                    {...register('name')}
-                    data-testid="name"
-                  />
-                  <FormErrorMessage role="alert">{errors.name?.message}</FormErrorMessage>
-                </FormControl>
-              </GridItem>
+    <form onSubmit={handleSubmit(onSubmit)} noValidate data-testid="the-form-test-id">
+      <Box borderWidth="1px" borderColor="gray.100" m={6} borderRadius="lg">
+        <VStack spacing={4} p={6} align="stretch" w="100%">
+          <SimpleGrid
+            columns={{ base: 1, md: 2, lg: 3 }}
+            spacing={4}
+            w="100%"
+          >
+            <GridItem>
+              <FormControl isInvalid={!!errors.name}>
+                <FormLabel htmlFor="name">Name</FormLabel>
+                <Input
+                  id="name"
+                  type="text"
+                  {...register('name')}
+                  data-testid="name"
+                />
+                <FormErrorMessage role="alert">{errors.name?.message}</FormErrorMessage>
+              </FormControl>
+            </GridItem>
 
-              <GridItem>
-                <FormControl isInvalid={!!errors.email}>
-                  <FormLabel htmlFor="email">Email</FormLabel>
-                  <Input
-                    id="email"
-                    type="email"
-                    {...register('email')}
-                    data-testid="email"
-                  />
-                  <FormErrorMessage role="alert">{errors.email?.message}</FormErrorMessage>
-                </FormControl>
-              </GridItem>
+            <GridItem>
+              <FormControl isInvalid={!!errors.email}>
+                <FormLabel htmlFor="email">Email</FormLabel>
+                <Input
+                  id="email"
+                  type="email"
+                  {...register('email')}
+                  data-testid="email"
+                />
+                <FormErrorMessage role="alert">{errors.email?.message}</FormErrorMessage>
+              </FormControl>
+            </GridItem>
 
-              <GridItem>
-                <FormControl isInvalid={!!errors.age}>
-                  <FormLabel htmlFor="age">Age</FormLabel>
-                  <Input
-                    id="age"
-                    type="number"
-                    {...register('age')}
-                    data-testid="age"
-                  />
-                  <FormErrorMessage role="alert">{errors.age?.message}</FormErrorMessage>
-                </FormControl>
-              </GridItem>
+            <GridItem>
+              <FormControl isInvalid={!!errors.age}>
+                <FormLabel htmlFor="age">Age</FormLabel>
+                <Input
+                  id="age"
+                  type="number"
+                  {...register('age')}
+                  data-testid="age"
+                />
+                <FormErrorMessage role="alert">{errors.age?.message}</FormErrorMessage>
+              </FormControl>
+            </GridItem>
 
-              <GridItem>
-                <FormControl isInvalid={!!errors.gender}>
-                  <FormLabel id="gender-label">Gender</FormLabel>
-                  <RadioGroup
-                    aria-labelledby="gender-label"
-                    onChange={(value) => setValue('gender', value, { shouldValidate: true })}
-                    value={watch('gender')}
-                  >
-                    <HStack spacing={4}>
-                      <Radio value="male">Male</Radio>
-                      <Radio value="female">Female</Radio>
-                      <Radio value="other">Other</Radio>
-                    </HStack>
-                  </RadioGroup>
-                  <FormErrorMessage role="alert">{errors.gender?.message}</FormErrorMessage>
-                </FormControl>
-              </GridItem>
+            <GridItem>
+              <FormControl isInvalid={!!errors.gender}>
+                <FormLabel id="gender-label">Gender</FormLabel>
+                <RadioGroup
+                  aria-labelledby="gender-label"
+                  onChange={(value) => setValue('gender', value, { shouldValidate: true })}
+                  value={watch('gender')}
+                >
+                  <HStack spacing={4}>
+                    <Radio value="male">Male</Radio>
+                    <Radio value="female">Female</Radio>
+                    <Radio value="other">Other</Radio>
+                  </HStack>
+                </RadioGroup>
+                <FormErrorMessage role="alert">{errors.gender?.message}</FormErrorMessage>
+              </FormControl>
+            </GridItem>
 
+            <GridItem>
+              <FormControl isInvalid={!!errors.country}>
+                <FormLabel htmlFor="country">Country</FormLabel>
+                <Select id="country" placeholder="Select country" {...register('country')}>
+                  <option value="usa">USA</option>
+                  <option value="canada">Canada</option>
+                  <option value="uk">United Kingdom</option>
+                  <option value="australia">Australia</option>
+                </Select>
+                <FormErrorMessage role="alert">{errors.country?.message}</FormErrorMessage>
+              </FormControl>
+            </GridItem>
+
+            {country === 'usa' && (
               <GridItem>
-                <FormControl isInvalid={!!errors.country}>
-                  <FormLabel htmlFor="country">Country</FormLabel>
-                  <Select id="country" placeholder="Select country" {...register('country')}>
-                    <option value="usa">USA</option>
-                    <option value="canada">Canada</option>
-                    <option value="uk">United Kingdom</option>
-                    <option value="australia">Australia</option>
+                <FormControl isInvalid={!!errors.state}>
+                  <FormLabel htmlFor="state">State</FormLabel>
+                  <Select id="state" placeholder="Select state" {...register('state')}>
+                    {statesUSA.map((state) => (
+                      <option key={state.value} value={state.value}>
+                        {state.label}
+                      </option>
+                    ))}
                   </Select>
-                  <FormErrorMessage role="alert">{errors.country?.message}</FormErrorMessage>
+                  <FormErrorMessage role="alert">{errors.state?.message}</FormErrorMessage>
                 </FormControl>
               </GridItem>
+            )}
 
-              {country === 'usa' && (
-                <GridItem>
-                  <FormControl isInvalid={!!errors.state}>
-                    <FormLabel htmlFor="state">State</FormLabel>
-                    <Select id="state" placeholder="Select state" {...register('state')}>
-                      {statesUSA.map((state) => (
-                        <option key={state.value} value={state.value}>
-                          {state.label}
-                        </option>
-                      ))}
-                    </Select>
-                    <FormErrorMessage role="alert">{errors.state?.message}</FormErrorMessage>
-                  </FormControl>
-                </GridItem>
-              )}
+            <GridItem colSpan={{ base: 1, md: 2, lg: 3 }}>
+              <FormControl pt={4} isInvalid={!!errors.acceptedTerms}>
+                <FormLabel htmlFor="acceptedTerms" id="acceptedTerms-label">Terms and conditions</FormLabel>
+                <Checkbox id="acceptedTerms" data-testid="acceptedTerms" {...register('acceptedTerms')}>
+                  I accept the terms and conditions
+                </Checkbox>
+                <FormErrorMessage role="alert">{errors.acceptedTerms?.message}</FormErrorMessage>
+              </FormControl>
+            </GridItem>
 
-              <GridItem colSpan={{ base: 1, md: 2, lg: 3 }}>
-                <FormControl pt={4} isInvalid={!!errors.acceptedTerms}>
-                  <FormLabel htmlFor="acceptedTerms" id="acceptedTerms-label">Terms and conditions</FormLabel>
-                  <Checkbox id="acceptedTerms" data-testid="acceptedTerms" {...register('acceptedTerms')}>
-                    I accept the terms and conditions
-                  </Checkbox>
-                  <FormErrorMessage role="alert">{errors.acceptedTerms?.message}</FormErrorMessage>
-                </FormControl>
-              </GridItem>
-
-              <GridItem colSpan={{ base: 1, md: 2, lg: 3 }}>
-                <Flex justify={{ base: 'flex-end', md: 'flex-start' }}>
-                  <Button type="submit" colorScheme="teal" width="100px">
-                    Submit
-                  </Button>
-                </Flex>
-              </GridItem>
-            </SimpleGrid>
-          </VStack>
-        </Box>
-      </form>
-    </ChakraProvider >
+            <GridItem colSpan={{ base: 1, md: 2, lg: 3 }}>
+              <Flex justify={{ base: 'flex-end', md: 'flex-start' }}>
+                <Button type="submit" colorScheme="teal" width="100px">
+                  Submit
+                </Button>
+              </Flex>
+            </GridItem>
+          </SimpleGrid>
+        </VStack>
+      </Box>
+    </form>
   )
 }
 
