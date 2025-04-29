@@ -29,9 +29,9 @@ const AppRouter: React.FC = () => {
 
       <Suspense fallback={<h2>Loading...</h2>}>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<UserForm />} />
           <Route path="/about" element={<About />} />
-          <Route path="/tests" element={<UserForm />} />
+          <Route path="/tests" element={<Home />} />
           <Route path="/forms" element={<DynamicForm />} />
         </Routes>
       </Suspense>
