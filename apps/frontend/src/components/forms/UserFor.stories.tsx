@@ -1,7 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { Box, ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider } from '@chakra-ui/react'
 import UserForm from './UserForm'
-import { theme } from '../../theme/theme'
+import { theme } from '../../theme/theme2'
+// import { theme } from '../../theme/theme'
 
 const meta: Meta<typeof UserForm> = {
   title: 'Forms/UserForm',

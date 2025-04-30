@@ -6,9 +6,9 @@ import React from 'react'
 import DynamicForm from './components/forms/DynamicForm'
 import UserForm from './components/forms/UserForm'
 import { ChakraProvider } from '@chakra-ui/react'
-import { theme } from './theme/theme'
+// import { theme } from './theme/theme'
 import Navbar from './components/NavBar'
-// import { theme } from './theme/theme2'
+import { theme } from './theme/theme2'
 
 type Student = {
   name: string
@@ -30,7 +30,6 @@ const AppRouter: React.FC = () => {
 
       <BrowserRouter>
         <Navbar />
-        
         <Suspense fallback={<h2>Loading...</h2>}>
           <Routes>
             <Route path="/" element={<UserForm />} />
