@@ -21,6 +21,9 @@ const Navbar = () => {
           <ChakraLink as={RouterLink} to="/counter" color="white" fontWeight="bold">
             Counter
           </ChakraLink>
+          <ChakraLink as={RouterLink} to="/errorboundary" color="white" fontWeight="bold">
+            Error Boundary
+          </ChakraLink>
         </HStack>
       </Flex>
     </Box>

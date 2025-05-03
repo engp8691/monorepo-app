@@ -1,3 +1,4 @@
+import { FC, useRef, useState } from 'react'
 import { StoreProvider, useStore, Action, TYPES } from '../../context/store'
 import { usePrevious } from '../../hooks'
 
@@ -24,18 +25,39 @@ export const Controller: React.FC<Action> = ({ type, payload }) => {
 }
 
 
+export const ControlledComponent: FC = () => {
+  const [value, setValue] = useState('')
+
+  return (
+    <input
+      type="text"
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+    />)
+}
+
+export const UnControlledComponent: FC = () => {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  return (
+    <input
+      type="text"
+      ref={inputRef}
+    />)
+}
+
 export const Counter: React.FC = () => {
   return (
-    <StoreProvider>
-      <div className={styles.container}>
-        <Display />
-        <div className={styles.buttonGroup}>
-          <Controller type={TYPES.DECREASE} />
-          <Controller type={TYPES.INCREASE} />
-          <Controller type={TYPES.SETNAME} payload={{ name: 'Age', count: 21 }} />
+      <StoreProvider>
+        <div className={styles.container}>
+          <Display />
+          <div className={styles.buttonGroup}>
+            <Controller type={TYPES.DECREASE} />
+            <Controller type={TYPES.INCREASE} />
+            <Controller type={TYPES.SETNAME} payload={{ name: 'Age', count: 21 }} />
+          </div>
         </div>
-      </div>
-    </StoreProvider>
+      </StoreProvider>
   )
 }
 
