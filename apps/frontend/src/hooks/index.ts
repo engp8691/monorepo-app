@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import * as _ from 'lodash'
 
 export type QueryResult<T> = {
   data: T | null
@@ -54,4 +55,45 @@ export const useMyReducer = <S, A>(reducer: Reducer, initialState: S) => {
   )
 
   return [state, dispatch]
+}
+
+export const usePrevious = <T>(value: T): T | undefined => {
+  const ref = useRef<T>(value)
+
+  useEffect(() => {
+    ref.current = value
+  }, [value])
+
+  return ref.current
+}
+
+export const useCustomEffect = (
+  callback: () => void | (() => void),
+  deps: unknown[],
+) => {
+  const prevDeps = useRef<unknown[]>(deps)
+
+  useEffect(() => {
+    if (!_.isEqual(prevDeps.current, deps)) {
+      const cleanup = callback()
+      prevDeps.current = _.cloneDeep(deps)
+      return cleanup
+    }
+  }, [callback, deps])
+}
+
+export const useDebounce = <T>(value: T, delay: number): T => {
+  const [debouncedValue, setDebouncedValue] = useState(value)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedValue(value)
+    }, delay)
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [value, delay])
+
+  return debouncedValue
 }

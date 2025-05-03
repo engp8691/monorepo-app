@@ -18,6 +18,9 @@ const Navbar = () => {
           <ChakraLink as={RouterLink} to="/forms" color="white" fontWeight="bold">
             Forms
           </ChakraLink>
+          <ChakraLink as={RouterLink} to="/counter" color="white" fontWeight="bold">
+            Counter
+          </ChakraLink>
         </HStack>
       </Flex>
     </Box>

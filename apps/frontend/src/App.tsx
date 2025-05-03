@@ -9,6 +9,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 // import { theme } from './theme/theme'
 import Navbar from './components/NavBar'
 import { theme } from './theme/theme2'
+import { Counter } from './components/counter/Counter'
 
 type Student = {
   name: string
@@ -36,6 +37,7 @@ const AppRouter: React.FC = () => {
             <Route path="/about" element={<About />} />
             <Route path="/tests" element={<Home />} />
             <Route path="/forms" element={<DynamicForm />} />
+            <Route path="/counter" element={<Counter />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
