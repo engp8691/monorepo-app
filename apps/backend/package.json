@@ -61,8 +61,13 @@
         }
       },
       "test": {
+        "executor": "@nx/vite:test",
         "options": {
-          "passWithNoTests": true
+          "passWithNoTests": true,
+          "testFilePatterns": [
+            "src/**/*.test.ts"
+          ],
+          "coverage": true
         }
       }
     }

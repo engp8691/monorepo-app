@@ -1,9 +1,10 @@
 import Fastify from 'fastify'
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
+import { vi } from 'vitest'
 import employeeRoutes from '../routes/employees'
 import Employee from '../../models/employee'
 
-jest.mock('../../models/employee')
+vi.mock('../../models/employee')
 
 describe('GET /employees', () => {
   let fastify: ReturnType<typeof Fastify>

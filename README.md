@@ -84,6 +84,7 @@ And join the Nx community:
 
 - npx vitest run apps/frontend/src/app/app.test.tsx
 - npx nx test frontend
+- npx vitest run apps/backend/src/app/tests/employees.test.ts
 - npx nx test backend
 - npx nx serve frontend
 - npx nx serve backend

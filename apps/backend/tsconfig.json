@@ -9,5 +9,10 @@
     {
       "path": "./tsconfig.spec.json"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "module": "ESNext", // or "NodeNext"
+    "moduleResolution": "NodeNext", // required for ESM
+    "target": "ES2020"
+  }
 }
