@@ -11,6 +11,13 @@ const config: StorybookConfig = {
       },
     },
   },
+  viteFinal: (config) => {
+    config.optimizeDeps = {
+      ...(config.optimizeDeps || {}),
+      include: ['lodash'],
+    }
+    return config
+  }
 }
 
 export default config
