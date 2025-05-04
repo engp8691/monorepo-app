@@ -82,10 +82,10 @@ And join the Nx community:
 
 ## The commands to do the test
 
-- npx vitest run apps/frontend/src/app/app.test.tsx
-- npx nx test frontend
-- npx vitest run apps/backend/src/app/tests/employees.test.ts
-- npx nx test backend
+- npx vitest run apps/frontend/src/app/app.test.tsx --coverage
+- npx nx test frontend --coverage
+- npx vitest run apps/backend/src/app/tests/employees.test.ts --coverage
+- npx nx test backend --coverage
 - npx nx serve frontend
 - npx nx serve backend
 - npx nx run frontend:storybook
