@@ -1,4 +1,4 @@
-import { Type } from '@sinclair/typebox' 
+import { Type } from '@sinclair/typebox'
 import { FastifyInstance, FastifyRequest } from 'fastify'
 
 const GreetingQuerySchema = Type.Object({
@@ -6,17 +6,21 @@ const GreetingQuerySchema = Type.Object({
 })
 
 export default async function (fastify: FastifyInstance) {
-  fastify.get('/greeting', {
-    schema: {
-      querystring: GreetingQuerySchema,
-      response: {
-        200: Type.Object({
-          greeting: Type.String(),
-        }),
+  fastify.get(
+    '/greeting',
+    {
+      schema: {
+        querystring: GreetingQuerySchema,
+        response: {
+          200: Type.Object({
+            greeting: Type.String(),
+          }),
+        },
       },
     },
-  }, async (request: FastifyRequest<{ Querystring: { username?: string } }>, _reply) => {
-    const { username } = request.query
-    return { greeting: `Hello, ${username || 'world'}!` }
-  })
+    async (request: FastifyRequest<{ Querystring: { username?: string } }>) => {
+      const { username } = request.query
+      return { greeting: `Hello, ${username || 'world'}!` }
+    },
+  )
 }

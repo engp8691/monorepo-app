@@ -6,6 +6,7 @@ import {
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
+import { useTranslation } from 'react-i18next'
 
 const statesUSA = [
   { label: 'California', value: 'CA' },
@@ -43,6 +44,8 @@ const UserForm: React.FC = () => {
   const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<IFormInput>({
     resolver: yupResolver(schema) as any,
   })
+  const { t } = useTranslation()
+
 
   const country = watch('country')
 
@@ -67,7 +70,7 @@ const UserForm: React.FC = () => {
           >
             <GridItem>
               <FormControl isInvalid={!!errors.name}>
-                <FormLabel htmlFor="name">Name</FormLabel>
+                <FormLabel htmlFor="name">{t('userForm.name')}</FormLabel>
                 <Input
                   id="name"
                   type="text"
@@ -80,7 +83,7 @@ const UserForm: React.FC = () => {
 
             <GridItem>
               <FormControl isInvalid={!!errors.email}>
-                <FormLabel htmlFor="email">Email</FormLabel>
+                <FormLabel htmlFor="email">{t('userForm.email')}</FormLabel>
                 <Input
                   id="email"
                   type="email"
