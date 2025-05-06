@@ -16,7 +16,7 @@ const Navbar = () => {
             Tests
           </ChakraLink>
           <ChakraLink as={RouterLink} to="/forms" color="white" fontWeight="bold">
-            Forms
+            Context Rerender
           </ChakraLink>
           <ChakraLink as={RouterLink} to="/counter" color="white" fontWeight="bold">
             Counter

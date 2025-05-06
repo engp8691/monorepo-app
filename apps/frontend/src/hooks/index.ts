@@ -14,7 +14,7 @@ export const useQuery = <T>(url: string): QueryResult<T> => {
   const [error, setError] = useState(null)
 
   const fetchData = useCallback(() => {
-    setIsFetching(false)
+    setIsFetching(true)
     setError(null)
 
     fetch(url)

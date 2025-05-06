@@ -15,7 +15,7 @@ export type Action = { type: TYPES, payload?: { name: string, count: number } }
 
 export type StoreContextType = {
   state: State;
-  dispatch: React.ActionDispatch<[action: Action]>
+  dispatch: React.ActionDispatch<[action: Action]> 
 }
 
 const reducer = (state: State, action: Action) => {
