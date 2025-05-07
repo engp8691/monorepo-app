@@ -30,7 +30,7 @@ const AppRouter: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 1.</h1>}><UserForm /></ErrorBoundary>} />
-      <Route path="/about" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 2.</h1>}><About /></ErrorBoundary>} />
+      <Route path="/todo" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 2.</h1>}><About /></ErrorBoundary>} />
       <Route path="/tests" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 3.</h1>}><Home /></ErrorBoundary>} />
       <Route path="/forms" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 4.</h1>}><SelectorContextDemo /></ErrorBoundary>} />
       <Route path="/counter" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 5.</h1>}><Counter /></ErrorBoundary>} />

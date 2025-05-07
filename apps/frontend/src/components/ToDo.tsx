@@ -1,4 +1,4 @@
-import { Text, Button, Flex, IconButton, Input } from '@chakra-ui/react'
+import { Box, Text, Button, Flex, IconButton, Input } from '@chakra-ui/react'
 import { LockIcon, UnlockIcon, DeleteIcon } from '@chakra-ui/icons'
 import { Fragment, memo, useCallback, useState } from 'react'
 
@@ -14,8 +14,7 @@ export const TodoItem: React.FC<Todo & {
 }> = memo(({ id, name, completed, toggleCompleted, deleteTodo }) => {
   console.log(`Rerendering todo ${id} ${name}!`)
 
-  return <Flex gap="2">
-    <Text>{name}</Text>
+  return <Flex m="6" gap="2">
     <IconButton
       variant='outline'
       colorScheme='teal'
@@ -30,6 +29,7 @@ export const TodoItem: React.FC<Todo & {
       icon={<DeleteIcon />}
       onClick={(e) => deleteTodo(id)}
     />
+    <Text textDecoration={completed ? 'line-through' : 'none' }>{name}</Text>
   </Flex>
 })
 
@@ -47,18 +47,18 @@ export const Todos: React.FC = () => {
 
   return (
     <Fragment>
-      <div>
+      <Box m="6">
         <Input w="400px" type='text' value={todoText} onChange={(e) => setTodoText(e.target.value)}></Input>
         <Button onClick={() => {
           setTodos([...todos, { completed: false, name: todoText, id: crypto.randomUUID() }])
           setTodoText('')
         }} >Add</Button>
-      </div>
-      <div>
+      </Box>
+      <Box>
         {
           todos.map((todo) => <TodoItem key={todo.id} {...todo} toggleCompleted={toggleCompleted} deleteTodo={deleteTodo} />)
         }
-      </div>
+      </Box>
     </Fragment>
   )
 }
