@@ -11,7 +11,7 @@
     }
   ],
   "compilerOptions": {
-    "module": "ESNext", // or "NodeNext"
+    "module": "NodeNext", // or "NodeNext"
     "moduleResolution": "NodeNext", // required for ESM
     "target": "ES2020"
   }
