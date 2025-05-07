@@ -10,7 +10,7 @@ const Navbar = () => {
             Home
           </ChakraLink>
           <ChakraLink as={RouterLink} to="/about" color="white" fontWeight="bold">
-            About
+            Todo List
           </ChakraLink>
           <ChakraLink as={RouterLink} to="/tests" color="white" fontWeight="bold">
             Tests
