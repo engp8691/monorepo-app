@@ -1,32 +1,53 @@
-import { useState } from 'react'
-
-const enum STATUSES {
-  'COMPLETED' = 'completed',
-  'NEW' = 'new'
-}
+import { Text, Button, Flex, IconButton, Input } from '@chakra-ui/react'
+import { DeleteIcon } from '@chakra-ui/icons'
+import { Fragment, memo, useCallback, useState } from 'react'
 
 type Todo = {
-  status: string
+  id: string
+  completed: boolean
   name: string
 }
 
-export const TodoItem: React.FC<Todo> = ({ status, name }) => {
-  const todoStyle = status === 'completed' ? 'completed' : 'new'
-  return <div className={todoStyle}>{name}</div>
-}
+export const TodoItem: React.FC<Todo & {
+  id: string
+  deleteTodo: (id: string) => void
+}> = memo(({ name, id, deleteTodo }) => {
+  console.log(`Rerendering todo ${id} ${name}!`)
+
+  return <Flex gap="2">
+    <Text>{name}</Text>
+    <IconButton
+      variant='outline'
+      colorScheme='teal'
+      aria-label='Delete todo'
+      icon={<DeleteIcon />}
+      onClick={(e) => deleteTodo(id)}
+    />
+  </Flex>
+})
 
 export const Todos: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([])
+  const [todoText, setTodoText] = useState('')
+
+  const deleteTodo = useCallback((id: string) => {
+    setTodos(todos => todos.filter(todo => todo.id !== id))
+  }, [])
 
   return (
-    <form>
-      < div >
-        <button onClick={() => { setTodos([...todos, { status: STATUSES.NEW, name: 'New todo' }]) }} >Add</button>
-        <button onClick={(e) => {
-          setTodos([...todos.splice(0, 1)])
-        }}
-        >Delete</button>
-      </div >
-    </form>
+    <Fragment>
+      <div>
+        <Input w="400px" type='text' value={todoText} onChange={(e) => setTodoText(e.target.value)}></Input>
+        <Button onClick={() => {
+          setTodos([...todos, { completed: false, name: todoText, id: crypto.randomUUID() }])
+          setTodoText('')
+        }} >Add</Button>
+      </div>
+      <div>
+        {
+          todos.map((todo) => <TodoItem key={todo.id} {...todo} deleteTodo={deleteTodo} />)
+        }
+      </div>
+    </Fragment>
   )
 }
