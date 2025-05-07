@@ -1,5 +1,5 @@
 import { Text, Button, Flex, IconButton, Input } from '@chakra-ui/react'
-import { DeleteIcon } from '@chakra-ui/icons'
+import { LockIcon, UnlockIcon, DeleteIcon } from '@chakra-ui/icons'
 import { Fragment, memo, useCallback, useState } from 'react'
 
 type Todo = {
@@ -9,13 +9,20 @@ type Todo = {
 }
 
 export const TodoItem: React.FC<Todo & {
-  id: string
+  toggleCompleted: (id: string) => void
   deleteTodo: (id: string) => void
-}> = memo(({ name, id, deleteTodo }) => {
+}> = memo(({ id, name, completed, toggleCompleted, deleteTodo }) => {
   console.log(`Rerendering todo ${id} ${name}!`)
 
   return <Flex gap="2">
     <Text>{name}</Text>
+    <IconButton
+      variant='outline'
+      colorScheme='teal'
+      aria-label='Delete todo'
+      icon={completed ? <UnlockIcon /> : <LockIcon />}
+      onClick={(e) => toggleCompleted(id)}
+    />
     <IconButton
       variant='outline'
       colorScheme='teal'
@@ -34,6 +41,10 @@ export const Todos: React.FC = () => {
     setTodos(todos => todos.filter(todo => todo.id !== id))
   }, [])
 
+  const toggleCompleted = useCallback((id:string)=> {
+    setTodos(todos => todos.map(todo => todo.id === id ? {...todo, completed: !todo.completed} : todo))
+  }, [])
+
   return (
     <Fragment>
       <div>
@@ -45,7 +56,7 @@ export const Todos: React.FC = () => {
       </div>
       <div>
         {
-          todos.map((todo) => <TodoItem key={todo.id} {...todo} deleteTodo={deleteTodo} />)
+          todos.map((todo) => <TodoItem key={todo.id} {...todo} toggleCompleted={toggleCompleted} deleteTodo={deleteTodo} />)
         }
       </div>
     </Fragment>
