@@ -19,7 +19,7 @@ export const TodoItem: React.FC<Todo & {
       variant='outline'
       colorScheme='teal'
       aria-label='Delete todo'
-      icon={completed ? <UnlockIcon /> : <LockIcon />}
+      icon={completed ? <LockIcon /> : <UnlockIcon />}
       onClick={(e) => toggleCompleted(id)}
     />
     <IconButton
@@ -29,7 +29,7 @@ export const TodoItem: React.FC<Todo & {
       icon={<DeleteIcon />}
       onClick={(e) => deleteTodo(id)}
     />
-    <Text textDecoration={completed ? 'line-through' : 'none' }>{name}</Text>
+    <Text textDecoration={completed ? 'line-through' : 'none'}>{name}</Text>
   </Flex>
 })
 
@@ -41,8 +41,8 @@ export const Todos: React.FC = () => {
     setTodos(todos => todos.filter(todo => todo.id !== id))
   }, [])
 
-  const toggleCompleted = useCallback((id:string)=> {
-    setTodos(todos => todos.map(todo => todo.id === id ? {...todo, completed: !todo.completed} : todo))
+  const toggleCompleted = useCallback((id: string) => {
+    setTodos(todos => todos.map(todo => todo.id === id ? { ...todo, completed: !todo.completed } : todo))
   }, [])
 
   return (

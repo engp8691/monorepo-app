@@ -1,5 +1,5 @@
 import React from 'react'
-import { useForm } from 'react-hook-form'
+import { Resolver, useForm } from 'react-hook-form'
 import {
   Button, FormControl, FormLabel, Input, FormErrorMessage, Select,
   Checkbox, RadioGroup, Radio, VStack, HStack, SimpleGrid, Box, Flex, GridItem
@@ -35,14 +35,14 @@ const schema = Yup.object({
     then: (schema) => schema.required('State is required when country is USA'),
     otherwise: (schema) => schema.optional(),
   }),
-  acceptedTerms: Yup.boolean().oneOf([true], 'You must accept the terms and conditions'),
+    acceptedTerms: Yup.boolean().oneOf([true], 'You must accept the terms and conditions'),
 }).required()
 
 type IFormInput = Yup.InferType<typeof schema>
 
 const UserForm: React.FC = () => {
-  const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<IFormInput>({
-    resolver: yupResolver(schema) as any,
+  const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm({
+    resolver: yupResolver(schema),
   })
   const { t } = useTranslation()
 
