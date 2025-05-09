@@ -45,6 +45,7 @@ const UserForm: React.FC = () => {
     resolver: yupResolver(schema),
   })
   const { t } = useTranslation()
+  console.log(9999948, 'form is re-rendering', errors)
 
 
   const country = watch('country')

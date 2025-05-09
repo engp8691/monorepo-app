@@ -4,12 +4,14 @@ import { QueryResult, useQuery } from './hooks'
 import React from 'react'
 // import DynamicForm from './components/forms/DynamicForm'
 import UserForm from './components/forms/UserForm'
+import UserForm2 from './components/forms/UserForm2'
 import { Counter } from './components/counter/Counter'
 import { ErrorDemo } from './components/error-boundary-demo/ErrorDemo'
 import { ErrorBoundary } from './ErrorBoundry'
 import LazyLoadingSlowComponent from './components/lazy-demo/LazyLoadingSlowComponent'
 import { VirtualList } from './components/visual-list/VisualList'
 import { SelectorContextDemo } from './components/context-value-selector/SelectorContextDemo'
+import { Box } from '@chakra-ui/react'
 
 type Student = {
   name: string
@@ -29,7 +31,14 @@ const AppRouter: React.FC = () => {
   console.log(99917, data, isFetching, error)
   return (
     <Routes>
-      <Route path="/" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 1.</h1>}><UserForm /></ErrorBoundary>} />
+      <Route path="/" element={
+        <ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 1.</h1>}>
+          <Box m="6">This form uses react-hook-form in the traditional way and it has the issue re-rendering all the fields while the user is typing in any field</Box>
+          <UserForm />
+          <Box m="6">This form also uses react-hook-form. But it fixes the re-rendering issues while the user is typing in a field. It means only the changing field is rendered. Please open the dev tool to check the console logs.</Box>
+          <UserForm2 />
+          </ErrorBoundary>}
+        />
       <Route path="/todo" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 2.</h1>}><About /></ErrorBoundary>} />
       <Route path="/tests" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 3.</h1>}><Home /></ErrorBoundary>} />
       <Route path="/forms" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 4.</h1>}><SelectorContextDemo /></ErrorBoundary>} />

@@ -2,7 +2,7 @@ import React from 'react'
 import {
   Box, Button, Checkbox, Flex, FormControl, FormErrorMessage,
   FormLabel, GridItem, HStack, Input, Radio, RadioGroup,
-  Select, SimpleGrid, VStack
+  Select, SimpleGrid, usePrevious, VStack
 } from '@chakra-ui/react'
 import {
   useForm, useController, FormProvider
@@ -55,6 +55,7 @@ const TextInput = React.memo(({ name, label, type = 'text' }: { name: keyof IFor
 // Isolated SelectInput
 const SelectInput = React.memo(({ name, label, options }: { name: keyof IFormInput, label: string, options: { label: string, value: string }[] }) => {
   const { field, fieldState } = useController({ name })
+  console.log(99958, 'Rendering the select input field of', field)
   return (
     <FormControl isInvalid={!!fieldState.error}>
       <FormLabel htmlFor={name}>{label}</FormLabel>
@@ -69,6 +70,7 @@ const SelectInput = React.memo(({ name, label, options }: { name: keyof IFormInp
 // Isolated Checkbox
 const TermsCheckbox = React.memo(() => {
   const { field, fieldState } = useController({ name: 'acceptedTerms' })
+  console.log(99973, 'Rendering the text input field of', field)
   return (
     <FormControl isInvalid={!!fieldState.error}>
       <Checkbox {...field} isChecked={field.value}>I accept the terms and conditions</Checkbox>
@@ -80,6 +82,7 @@ const TermsCheckbox = React.memo(() => {
 // Gender Radio Group
 const GenderInput = React.memo(() => {
   const { field, fieldState } = useController({ name: 'gender' })
+  console.log(99985, 'Rendering the radio group field of', field)
   return (
     <FormControl isInvalid={!!fieldState.error}>
       <FormLabel>Gender</FormLabel>
@@ -95,15 +98,29 @@ const GenderInput = React.memo(() => {
   )
 })
 
-const UserForm: React.FC = () => {
+const UserForm2: React.FC = () => {
   const methods = useForm<IFormInput>({
     resolver: yupResolver(schema) as any,
     mode: 'onChange',
     shouldUnregister: true,
+    defaultValues: {
+      name: '',
+      email: '',
+      age: undefined,
+      gender: '',
+      country: '',
+      state: '',
+      acceptedTerms: false,
+    }
   })
 
-  const { handleSubmit, watch, setValue } = methods
+  const { handleSubmit, watch, setValue, control, formState } = methods
   const country = watch('country')
+  const prevControl = usePrevious(control)
+  console.log(9999120, formState)
+  console.log(9999333120, prevControl === control)
+  console.log(9999121, prevControl?.getFieldState('name'))
+  console.log(9999122, control?.getFieldState('name'))
 
   React.useEffect(() => {
     if (country !== 'usa') setValue('state', '')
@@ -160,4 +177,4 @@ const UserForm: React.FC = () => {
   )
 }
 
-export default UserForm
+export default UserForm2
