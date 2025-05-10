@@ -49,7 +49,7 @@ export const Todos: React.FC = () => {
     <Fragment>
       <Box m="6">
         <Input w="400px" type='text' value={todoText} onChange={(e) => setTodoText(e.target.value)}></Input>
-        <Button onClick={() => {
+        <Button ml="4" disabled={todoText.length === 0} onClick={() => {
           setTodos([...todos, { completed: false, name: todoText, id: crypto.randomUUID() }])
           setTodoText('')
         }} >Add</Button>
