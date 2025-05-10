@@ -1,4 +1,14 @@
-import { Box, Flex, HStack, Link as ChakraLink } from '@chakra-ui/react'
+import { ChevronDownIcon } from '@chakra-ui/icons'
+import {
+  Box,
+  Flex,
+  HStack,
+  Link as ChakraLink,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+} from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 
 const Navbar = () => {
@@ -6,9 +16,30 @@ const Navbar = () => {
     <Box bg="gray.400" px={4} py={2}>
       <Flex h={16} alignItems="center" justifyContent="space-between">
         <HStack spacing={6}>
-          <ChakraLink as={RouterLink} to="/" color="white" fontWeight="bold">
-            Home
-          </ChakraLink>
+          <Menu>
+            <MenuButton
+              as={ChakraLink}
+              color="white"
+              fontWeight="bold"
+              _hover={{ textDecoration: 'underline' }}
+              display="flex"
+              alignItems="center"
+            >
+              Home <ChevronDownIcon />
+            </MenuButton>
+            <MenuList>
+              <MenuItem as={RouterLink} to="/">
+                Introduction
+              </MenuItem>
+              <MenuItem as={RouterLink} to="/form1">
+                Form 1
+              </MenuItem>
+              <MenuItem as={RouterLink} to="/form2">
+                Form 2
+              </MenuItem>
+            </MenuList>
+          </Menu>
+
           <ChakraLink as={RouterLink} to="/todo" color="white" fontWeight="bold">
             Todo List
           </ChakraLink>
