@@ -12,6 +12,7 @@ import LazyLoadingSlowComponent from './components/lazy-demo/LazyLoadingSlowComp
 import { VirtualList } from './components/visual-list/VisualList'
 import { SelectorContextDemo } from './components/context-value-selector/SelectorContextDemo'
 import { Box } from '@chakra-ui/react'
+import { AgGrid } from './components/ag-grid/AgGrid'
 
 type Student = {
   name: string
@@ -28,7 +29,7 @@ const AppRouter: React.FC = () => {
   }
   const location = useLocation()
 
-  console.log(99917, data, isFetching, error)
+  console.log(99932, data, isFetching, error)
   return (
     <Routes>
       <Route path="/" element={
@@ -37,8 +38,8 @@ const AppRouter: React.FC = () => {
           <UserForm />
           <Box m="6">This form also uses react-hook-form. But it fixes the re-rendering issues while the user is typing in a field. It means only the changing field is rendered. Please open the dev tool to check the console logs.</Box>
           <UserForm2 />
-          </ErrorBoundary>}
-        />
+        </ErrorBoundary>}
+      />
       <Route path="/todo" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 2.</h1>}><About /></ErrorBoundary>} />
       <Route path="/tests" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 3.</h1>}><Home /></ErrorBoundary>} />
       <Route path="/forms" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 4.</h1>}><SelectorContextDemo /></ErrorBoundary>} />
@@ -47,6 +48,7 @@ const AppRouter: React.FC = () => {
       <Route path="/errorboundary" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 6.</h1>}><ErrorDemo /></ErrorBoundary>} />
       <Route path="/lazyimport" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 7.</h1>}><LazyLoadingSlowComponent /></ErrorBoundary>} />
       <Route path="/visuallist" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 7.</h1>}><VirtualList /></ErrorBoundary>} />
+      <Route path="/aggrid" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 7.</h1>}><AgGrid /></ErrorBoundary>} />
     </Routes>
   )
 }

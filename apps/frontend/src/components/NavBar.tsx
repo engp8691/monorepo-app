@@ -30,6 +30,9 @@ const Navbar = () => {
           <ChakraLink as={RouterLink} to="/visuallist" color="white" fontWeight="bold">
             Visual List
           </ChakraLink>
+          <ChakraLink as={RouterLink} to="/aggrid" color="white" fontWeight="bold">
+            AG Grid
+          </ChakraLink>
         </HStack>
       </Flex>
     </Box>
