@@ -90,6 +90,7 @@ And join the Nx community:
 - npx nx serve backend
 - npx nx run frontend:storybook
 - npx nx run frontend-e2e:e2e
+- npx nx run frontend-e2e:e2e -- --project=chromium apps/frontend-e2e/src/form.spec.ts
 
 ### When pipeline fails to connect to nx cloud
 

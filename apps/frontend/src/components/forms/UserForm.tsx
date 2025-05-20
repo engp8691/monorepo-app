@@ -35,7 +35,7 @@ const schema = Yup.object({
     then: (schema) => schema.required('State is required when country is USA'),
     otherwise: (schema) => schema.optional(),
   }),
-    acceptedTerms: Yup.boolean().oneOf([true], 'You must accept the terms and conditions'),
+  acceptedTerms: Yup.boolean().oneOf([true], 'You must accept the terms and conditions'),
 }).required()
 
 type IFormInput = Yup.InferType<typeof schema>
@@ -117,7 +117,7 @@ const UserForm: React.FC = () => {
                   value={watch('gender')}
                 >
                   <HStack spacing={4}>
-                    <Radio value="male">Male</Radio>
+                    <Radio value="male" data-testid="male">Male</Radio>
                     <Radio value="female">Female</Radio>
                     <Radio value="other">Other</Radio>
                   </HStack>
