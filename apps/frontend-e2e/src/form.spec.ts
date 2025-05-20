@@ -39,8 +39,15 @@ test('should submit the form without error with all fields filled', async ({
   ).toBeVisible()
   await page.fill('input[name="age"]', '32')
   await page.locator('[data-testid="male"]').click()
+  // three ways to locate the rodio button
+  await page.getByText(/^Male$/, { exact: true }).click()
+  await page.getByText('Female').click()
   await page.selectOption('select[name="country"]', 'USA')
   await page.selectOption('select[name="state"]', 'New York')
+  // two ways to locate the check box
+  await page
+    .getByText(/^I accept the terms and conditions$/, { exact: true })
+    .check()
   await page.locator('[data-testid="acceptedTerms"]').check()
 
   await page.click('button:has-text("Submit")')
