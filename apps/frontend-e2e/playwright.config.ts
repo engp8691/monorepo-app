@@ -2,7 +2,7 @@ import { defineConfig, devices } from '@playwright/test'
 import { nxE2EPreset } from '@nx/playwright/preset'
 import { workspaceRoot } from '@nx/devkit'
 
-const baseURL = process.env['BASE_URL'] || 'http://localhost:4200'
+const baseURL = process.env['BASE_URL'] || 'http://localhost:4300'
 
 export default defineConfig({
   ...nxE2EPreset(__filename, { testDir: './src' }),
@@ -10,7 +10,7 @@ export default defineConfig({
   use: {
     headless: false,
     launchOptions: {
-      slowMo: 10, // Slow down interactions (optional)
+      slowMo: 1000, // Slow down interactions (optional)
     },
     baseURL,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
@@ -19,7 +19,7 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: {
     command: 'npx nx run frontend:preview',
-    url: 'http://localhost:4200',
+    url: 'http://localhost:4300',
     reuseExistingServer: !process.env.CI,
     cwd: workspaceRoot,
   },

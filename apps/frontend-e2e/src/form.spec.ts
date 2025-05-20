@@ -37,7 +37,7 @@ test('should submit the form without error with all fields filled', async ({
   await expect(
     page.locator('text="You must be at least 18 years old"'),
   ).toBeVisible()
-  await page.fill('input[name="age"]', '30')
+  await page.fill('input[name="age"]', '32')
   await page.locator('[data-testid="male"]').click()
   await page.selectOption('select[name="country"]', 'USA')
   await page.selectOption('select[name="state"]', 'New York')
