@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from 'react-router-dom'
-import { Fragment, lazy } from 'react'
+import { lazy } from 'react'
 import { QueryResult, useQuery } from './hooks'
 import React from 'react'
 // import DynamicForm from './components/forms/DynamicForm'

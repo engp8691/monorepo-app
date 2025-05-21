@@ -9,6 +9,7 @@ import {
 } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
+import usePageTracking from '../../hooks/use-page-tracking'
 
 const statesUSA = [
   { label: 'California', value: 'CA' },
@@ -99,6 +100,8 @@ const GenderInput = React.memo(() => {
 })
 
 const UserForm2: React.FC = () => {
+  usePageTracking()
+
   const methods = useForm<IFormInput>({
     resolver: yupResolver(schema) as any,
     mode: 'onChange',
