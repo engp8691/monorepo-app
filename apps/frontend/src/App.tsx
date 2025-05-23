@@ -1,12 +1,18 @@
+import { ChakraProvider } from '@chakra-ui/react'
+import LogRocket from 'logrocket'
 import { BrowserRouter } from 'react-router-dom'
 import { Suspense } from 'react'
-import { QueryResult, useQuery } from './hooks'
 import React from 'react'
-import { ChakraProvider } from '@chakra-ui/react'
+import ReactGA from 'react-ga4'
+
 // import { theme } from './theme/theme'
+import { QueryResult, useQuery } from './hooks'
 import Navbar from './components/NavBar'
 import { theme } from './theme/theme2'
 import AppRouter from './AppRoutes'
+
+
+LogRocket.init('mrrxkz/user_form')
 
 type Student = {
   name: string
@@ -18,6 +24,13 @@ const App: React.FC = () => {
   if (error) {
     refetch()
   }
+
+  ReactGA.initialize('G-PNW1ME6NFF', {
+    gtagOptions: {
+      debug_mode: true, // This enables debug mode in GA4
+    },
+  })
+  ReactGA.send('pageview')
 
   console.log(99917, data, isFetching, error)
   return (

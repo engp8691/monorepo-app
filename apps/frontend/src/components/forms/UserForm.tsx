@@ -1,5 +1,5 @@
 import React from 'react'
-import { Resolver, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import {
   Button, FormControl, FormLabel, Input, FormErrorMessage, Select,
   Checkbox, RadioGroup, Radio, VStack, HStack, SimpleGrid, Box, Flex, GridItem
@@ -7,6 +7,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
+import usePageTracking from '../../hooks/use-page-tracking'
 
 const statesUSA = [
   { label: 'California', value: 'CA' },
@@ -46,7 +47,7 @@ const UserForm: React.FC = () => {
   })
   const { t } = useTranslation()
   console.log(9999948, 'form is re-rendering', errors)
-
+  usePageTracking()
 
   const country = watch('country')
 
