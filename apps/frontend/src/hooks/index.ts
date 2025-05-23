@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import * as _ from 'lodash'
 
 export type QueryResult<T> = {
@@ -170,4 +171,52 @@ export function useViewportSize() {
   }, [])
 
   return size
+}
+
+// function type alias
+type PostRequest<D, R> = (
+  url: string,
+  data?: D,
+  config?: AxiosRequestConfig,
+) => Promise<AxiosResponse<R>>
+
+export function useCancellableAxiosPost<D, R>() {
+  const controllerRef = useRef<AbortController | null>(null)
+
+  const post: PostRequest<D, R> = useCallback(async (url, data, config) => {
+      // Cancel any previous request
+      if (controllerRef.current) {
+        controllerRef.current.abort()
+      }
+
+      // Create a new controller
+      const controller = new AbortController()
+      controllerRef.current = controller
+
+      try {
+        const response = await axios.post<R>(url, data, {
+          ...config,
+          signal: controller.signal,
+        })
+
+        return response
+      } catch (err) {
+        const error = err as Error
+        if (error.name === 'CanceledError') {
+          console.warn('Request canceled')
+        }
+        throw error
+      }
+    },
+    [],
+  )
+
+  const cancel = () => {
+    if (controllerRef.current) {
+      controllerRef.current.abort()
+      controllerRef.current = null
+    }
+  }
+
+  return { post, cancel }
 }

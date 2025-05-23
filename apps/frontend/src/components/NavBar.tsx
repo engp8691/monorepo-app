@@ -37,6 +37,12 @@ const Navbar = () => {
               <MenuItem as={RouterLink} to="/form2">
                 Form 2
               </MenuItem>
+              <MenuItem as={RouterLink} to="/form3">
+                Form 3
+              </MenuItem>
+              <MenuItem as={RouterLink} to="/form4">
+                Cancel Post
+              </MenuItem>
             </MenuList>
           </Menu>
 

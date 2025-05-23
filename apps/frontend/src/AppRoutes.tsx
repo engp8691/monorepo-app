@@ -13,6 +13,8 @@ import { VirtualList } from './components/visual-list/VisualList'
 import { SelectorContextDemo } from './components/context-value-selector/SelectorContextDemo'
 import { Box } from '@chakra-ui/react'
 import { AgGrid } from './components/ag-grid/AgGrid'
+import AppForm from './components/forms/AppForm'
+import { CancelablePost } from './components/forms/CancelablePost'
 
 type Student = {
   name: string
@@ -55,9 +57,21 @@ const AppRouter: React.FC = () => {
         </ErrorBoundary >}
       />
       < Route path="/form2" element={
-        < ErrorBoundary key={location.pathname} fallback={< h1 > Oops! There was a problem 1.</h1 >}>
+        < ErrorBoundary key={location.pathname} fallback={< h1 > Oops! There was a problem 2.</h1 >}>
           <Box m="6">This form also uses react-hook-form. But it fixes the re-rendering issues while the user is typing in a field. It means only the changing field is rendered. Please open the dev tool to check the console logs.</Box>
           <UserForm2 />
+        </ErrorBoundary >}
+      />
+      < Route path="/form3" element={
+        < ErrorBoundary key={location.pathname} fallback={< h1 > Oops! There was a problem 3.</h1 >}>
+          <Box m="6">This form also uses react-hook-form but without Chakra.</Box>
+          <AppForm />
+        </ErrorBoundary >}
+      />
+      < Route path="/form4" element={
+        < ErrorBoundary key={location.pathname} fallback={< h1 > Oops! There was a problem 4.</h1 >}>
+          <Box m="6">The request will take 5 seconds to reply back after submission. During this period of time, it can be revoked/cancelled.</Box>
+          <CancelablePost />
         </ErrorBoundary >}
       />
       < Route path="/todo" element={< ErrorBoundary key={location.pathname} fallback={< h1 > Oops! There was a problem 2.</h1 >}> <About /></ErrorBoundary >} />
