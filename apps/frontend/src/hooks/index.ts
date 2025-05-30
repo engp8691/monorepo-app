@@ -1,4 +1,12 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import * as _ from 'lodash'
 
@@ -184,32 +192,30 @@ export function useCancellableAxiosPost<D, R>() {
   const controllerRef = useRef<AbortController | null>(null)
 
   const post: PostRequest<D, R> = useCallback(async (url, data, config) => {
-      // Cancel any previous request
-      if (controllerRef.current) {
-        controllerRef.current.abort()
+    // Cancel any previous request
+    if (controllerRef.current) {
+      controllerRef.current.abort()
+    }
+
+    // Create a new controller
+    const controller = new AbortController()
+    controllerRef.current = controller
+
+    try {
+      const response = await axios.post<R>(url, data, {
+        ...config,
+        signal: controller.signal,
+      })
+
+      return response
+    } catch (err) {
+      const error = err as Error
+      if (error.name === 'CanceledError') {
+        console.warn('Request canceled')
       }
-
-      // Create a new controller
-      const controller = new AbortController()
-      controllerRef.current = controller
-
-      try {
-        const response = await axios.post<R>(url, data, {
-          ...config,
-          signal: controller.signal,
-        })
-
-        return response
-      } catch (err) {
-        const error = err as Error
-        if (error.name === 'CanceledError') {
-          console.warn('Request canceled')
-        }
-        throw error
-      }
-    },
-    [],
-  )
+      throw error
+    }
+  }, [])
 
   const cancel = () => {
     if (controllerRef.current) {
@@ -219,4 +225,60 @@ export function useCancellableAxiosPost<D, R>() {
   }
 
   return { post, cancel }
+}
+
+type Validator<V> = (value: V) => true | string
+type Validators<T> = { [K in keyof T]: Validator<T[K]> }
+
+export function useForm<T>(params: {
+  initialValues: T
+  validators: Validators<T>
+}) {
+  const { initialValues, validators } = params
+
+  const [values, setValues] = useState<T>(initialValues)
+  const [errors, setErrors] = useState<Partial<Record<keyof T, string>>>({})
+
+  const handleChange = <K extends keyof T>(key: K, value: T[K]) => {
+    setValues((prev) => ({ ...prev, [key]: value }))
+    const result = validators[key](value)
+    setErrors((prev) => ({
+      ...prev,
+      [key]: result === true ? undefined : result,
+    }))
+  }
+
+  const validate = (): boolean => {
+    const newErrors: Partial<Record<keyof T, string>> = {}
+
+    for (const key in validators) {
+      const result = validators[key](values[key])
+      if (result !== true) {
+        newErrors[key] = result
+      }
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  return {
+    values,
+    errors,
+    handleChange,
+    validate,
+  }
+}
+
+/////
+
+type User = {
+  name: string
+  email: string
+} | null
+
+type AuthContextType = {
+  user: User
+  login: (user: { name: string; email: string }) => void
+  logout: () => void
 }
