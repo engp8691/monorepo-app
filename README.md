@@ -95,3 +95,6 @@ And join the Nx community:
 ### When pipeline fails to connect to nx cloud
 
 - npx nx connect-to-nx-cloud
+
+## Augo playwright test generation
+npx playwright codegen http://localhost:4200

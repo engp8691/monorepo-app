@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event'
 import { ChakraProvider } from '@chakra-ui/react'
 import { FormProvider, useForm } from 'react-hook-form'
 import UserForm from './UserForm'
+import { BrowserRouter } from 'react-router-dom'
 
 const renderWithProviders = (ui: React.ReactElement) => {
   const Wrapper = ({ children }: { children: React.ReactNode }) => {
@@ -20,7 +21,9 @@ const renderWithProviders = (ui: React.ReactElement) => {
 
     return (
       <ChakraProvider>
-        <FormProvider {...methods}>{children}</FormProvider>
+        <BrowserRouter>
+          <FormProvider {...methods}>{children}</FormProvider>
+        </BrowserRouter>
       </ChakraProvider>
     )
   }
