@@ -91,7 +91,11 @@ And join the Nx community:
 - npx nx run frontend:storybook
 - npx nx run frontend-e2e:e2e
 - npx nx run frontend-e2e:e2e -- --project=chromium apps/frontend-e2e/src/form.spec.ts
+- npx nx affected -t lint test build e2e
 
 ### When pipeline fails to connect to nx cloud
 
 - npx nx connect-to-nx-cloud
+
+## Augo playwright test generation
+npx playwright codegen http://localhost:4200

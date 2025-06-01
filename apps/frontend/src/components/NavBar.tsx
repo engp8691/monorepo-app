@@ -37,6 +37,12 @@ const Navbar = () => {
               <MenuItem as={RouterLink} to="/form2">
                 Form 2
               </MenuItem>
+              <MenuItem as={RouterLink} to="/form3">
+                Form 3
+              </MenuItem>
+              <MenuItem as={RouterLink} to="/form4">
+                Cancel Post
+              </MenuItem>
             </MenuList>
           </Menu>
 
@@ -63,6 +69,12 @@ const Navbar = () => {
           </ChakraLink>
           <ChakraLink as={RouterLink} to="/aggrid" color="white" fontWeight="bold">
             AG Grid
+          </ChakraLink>
+          <ChakraLink as={RouterLink} to="/aggridpaging" color="white" fontWeight="bold">
+            AG Grid Paging
+          </ChakraLink>
+          <ChakraLink as={RouterLink} to="/aggridfiltering" color="white" fontWeight="bold">
+            AG Grid Filtering
           </ChakraLink>
         </HStack>
       </Flex>

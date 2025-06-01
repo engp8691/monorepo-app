@@ -36,12 +36,15 @@ export const AgGrid = () => {
 	}, [])
 
 	return (
-		<div style={{ width: '100%', height: '100vh' }}>
+		<div style={{ width: '100%', height: 'calc(100vh - 80px)' }}>
 			<AgGridReact
 				rowData={rowData}
 				columnDefs={colDefs}
 				defaultColDef={defaultColDef}
-        rowSelection={{ mode: 'multiRow' }}
+				pagination={true}
+				paginationPageSize={4}
+				cacheBlockSize={4}
+				rowSelection={{ mode: 'multiRow' }}
 			/>
 		</div>
 	)

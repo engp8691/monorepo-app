@@ -8,26 +8,30 @@ type Todo = {
   name: string
 }
 
+enum OPERATIONS {
+  DELETE = 'delete',
+  TOGGLE = 'toggle'
+}
+
 export const TodoItem: React.FC<Todo & {
-  toggleCompleted: (id: string) => void
-  deleteTodo: (id: string) => void
-}> = memo(({ id, name, completed, toggleCompleted, deleteTodo }) => {
+  todoOperation: (id: string, operation: OPERATIONS) => void
+}> = memo(({ id, name, completed, todoOperation }) => {
   console.log(`Rerendering todo ${id} ${name}!`)
 
   return <Flex m="6" gap="2">
     <IconButton
       variant='outline'
       colorScheme='teal'
-      aria-label='Delete todo'
+      aria-label='toggle todo'
       icon={completed ? <LockIcon /> : <UnlockIcon />}
-      onClick={(e) => toggleCompleted(id)}
+      onClick={(e) => todoOperation(id, OPERATIONS.TOGGLE)}
     />
     <IconButton
       variant='outline'
       colorScheme='teal'
-      aria-label='Delete todo'
+      aria-label='delete todo'
       icon={<DeleteIcon />}
-      onClick={(e) => deleteTodo(id)}
+      onClick={(e) => todoOperation(id, OPERATIONS.DELETE)}
     />
     <Text textDecoration={completed ? 'line-through' : 'none'}>{name}</Text>
   </Flex>
@@ -37,12 +41,13 @@ export const Todos: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([])
   const [todoText, setTodoText] = useState('')
 
-  const deleteTodo = useCallback((id: string) => {
-    setTodos(todos => todos.filter(todo => todo.id !== id))
-  }, [])
-
-  const toggleCompleted = useCallback((id: string) => {
-    setTodos(todos => todos.map(todo => todo.id === id ? { ...todo, completed: !todo.completed } : todo))
+  const todoOperation = useCallback((id: string, operation: OPERATIONS) => {
+    if (operation === OPERATIONS.DELETE) {
+      setTodos(todos => todos.filter(todo => todo.id !== id))
+    }
+    if (operation === OPERATIONS.TOGGLE) {
+      setTodos(todos => todos.map(todo => todo.id === id ? { ...todo, completed: !todo.completed } : todo))
+    }
   }, [])
 
   return (
@@ -56,7 +61,7 @@ export const Todos: React.FC = () => {
       </Box>
       <Box>
         {
-          todos.map((todo) => <TodoItem key={todo.id} {...todo} toggleCompleted={toggleCompleted} deleteTodo={deleteTodo} />)
+          todos.map((todo) => <TodoItem key={todo.id} {...todo} todoOperation={todoOperation} />)
         }
       </Box>
     </Fragment>
