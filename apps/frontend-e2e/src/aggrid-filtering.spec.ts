@@ -22,6 +22,16 @@ test('AG Grid', async ({ page }) => {
     .click()
   await page.getByText('Begins with').click()
   await page.getByLabel('Filter Value').nth(1).fill('Zheng')
+  const cells = page
+    .locator('div[role="gridcell"][col-id="athlete"]')
+    .filter({ hasText: 'Li Na' })
+  await Promise.all(
+    Array.from({ length: await cells.count() }).map(async (_, i) => {
+      const cell = cells.nth(i)
+      await expect(cell).toBeVisible()
+      await expect(cell).toHaveCSS('color', 'rgb(255, 0, 0)')
+    }),
+  )
   await page
     .locator('div')
     .filter({ hasText: 'Home IntroductionForm 1Form' })
