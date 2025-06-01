@@ -5,8 +5,8 @@ test.beforeEach(async ({ page }) => {
 })
 
 test('AG Grid', async ({ page }) => {
-  await page.getByRole('link', { name: 'AG Grid Server Data' }).click()
-  await expect(page).toHaveURL(/aggridserverdata/)
+  await page.getByRole('link', { name: 'AG Grid Paging' }).click()
+  await expect(page).toHaveURL(/aggridpaging/)
   await page.getByRole('gridcell', { name: 'Michael Phelps' }).nth(1).click()
   await page
     .locator(

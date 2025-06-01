@@ -70,8 +70,11 @@ const Navbar = () => {
           <ChakraLink as={RouterLink} to="/aggrid" color="white" fontWeight="bold">
             AG Grid
           </ChakraLink>
-          <ChakraLink as={RouterLink} to="/aggridserverdata" color="white" fontWeight="bold">
-            AG Grid Server Data
+          <ChakraLink as={RouterLink} to="/aggridpaging" color="white" fontWeight="bold">
+            AG Grid Paging
+          </ChakraLink>
+          <ChakraLink as={RouterLink} to="/aggridfiltering" color="white" fontWeight="bold">
+            AG Grid Filtering
           </ChakraLink>
         </HStack>
       </Flex>

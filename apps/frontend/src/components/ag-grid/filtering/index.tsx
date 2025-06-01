@@ -8,26 +8,27 @@ import {
 import { AgGridReact } from 'ag-grid-react'
 import {
   ColDef,
+  ColTypeDef,
   GridReadyEvent,
   IServerSideDatasource,
   ModuleRegistry,
-  PaginationModule,
+  NumberFilterModule,
+  TextFilterModule,
   ValidationModule,
 } from 'ag-grid-community'
 import {
   ColumnMenuModule,
-  ColumnsToolPanelModule,
   ContextMenuModule,
   ServerSideRowModelModule,
 } from 'ag-grid-enterprise'
+import { IOlympicData } from '../common/interfaces'
 import { FakeServer } from '../common/fakeServer'
-import { IOlympicDataWithId } from '../common/interfaces'
 ModuleRegistry.registerModules([
-  PaginationModule,
-  ColumnsToolPanelModule,
   ColumnMenuModule,
   ContextMenuModule,
   ServerSideRowModelModule,
+  TextFilterModule,
+  NumberFilterModule,
   ...(process.env.NODE_ENV !== 'production' ? [ValidationModule] : []),
 ])
 
@@ -37,46 +38,65 @@ const getServerSideDatasource: (server: any) => IServerSideDatasource = (
   return {
     getRows: (params) => {
       console.log('[Datasource] - rows requested by grid: ', params.request)
+      // get data for request from our fake server
       const response = server.getData(params.request)
-      // adding delay to simulate real server call
+      // simulating real server call with a 500ms delay
       setTimeout(() => {
         if (response.success) {
-          // call the success callback
+          // supply rows for requested block to grid
           params.success({
             rowData: response.rows,
             rowCount: response.lastRow,
           })
         } else {
-          // inform the grid request failed
           params.fail()
         }
-      }, 200)
+      }, 500)
     },
   }
 }
 
-export const GridPaging = () => {
+export const GridFiltering = () => {
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: 'id', maxWidth: 75 },
-    { field: 'athlete', minWidth: 190 },
-    { field: 'age' },
-    { field: 'year' },
-    { field: 'gold' },
-    { field: 'silver' },
-    { field: 'bronze' },
+    {
+      field: 'athlete',
+      filter: 'agTextColumnFilter',
+      minWidth: 220,
+    },
+    {
+      field: 'year',
+      filter: 'agNumberColumnFilter',
+      filterParams: {
+        buttons: ['reset'],
+        debounceMs: 1000,
+        maxNumConditions: 1,
+      },
+    },
+    { field: 'gold', type: 'number' },
+    { field: 'silver', type: 'number' },
+    { field: 'bronze', type: 'number' },
   ])
   const defaultColDef = useMemo<ColDef>(() => {
     return {
       flex: 1,
-      minWidth: 90,
+      minWidth: 100,
+      suppressHeaderMenuButton: true,
+      suppressHeaderContextMenu: true,
+    }
+  }, [])
+  const columnTypes = useMemo<{
+    [key: string]: ColTypeDef;
+  }>(() => {
+    return {
+      number: { filter: 'agNumberColumnFilter' },
     }
   }, [])
 
   const onGridReady = useCallback((params: GridReadyEvent) => {
     fetch('https://www.ag-grid.com/example-assets/olympic-winners.json')
       .then((resp) => resp.json())
-      .then((data: IOlympicDataWithId[]) => {
-        // add id to data
+      .then((data: IOlympicData[]) => {
         let idSequence = 1
         data.forEach(function (item: any) {
           item.id = idSequence++
@@ -92,15 +112,16 @@ export const GridPaging = () => {
 
   return (
     <div style={{ width: '100%', height: 'calc(100vh - 80px)' }}>
-      <AgGridReact<IOlympicDataWithId>
+      <AgGridReact<IOlympicData>
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
+        columnTypes={columnTypes}
         rowModelType={'serverSide'}
         pagination={true}
         paginationPageSize={20}
         cacheBlockSize={10}
         onGridReady={onGridReady}
       />
-    </div>
+    </div >
   )
 }

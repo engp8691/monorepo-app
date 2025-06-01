@@ -15,7 +15,8 @@ import { Box } from '@chakra-ui/react'
 import { AgGrid } from './components/ag-grid/simple'
 import AppForm from './components/forms/AppForm'
 import { CancelablePost } from './components/forms/CancelablePost'
-import { GridExample } from './components/ag-grid/paging'
+import { GridFiltering } from './components/ag-grid/filtering'
+import { GridPaging } from './components/ag-grid/paging'
 
 type Student = {
   name: string
@@ -84,7 +85,8 @@ const AppRouter: React.FC = () => {
       <Route path="/lazyimport" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 7.</h1>}><LazyLoadingSlowComponent /></ErrorBoundary>} />
       <Route path="/visuallist" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 7.</h1>}><VirtualList /></ErrorBoundary>} />
       <Route path="/aggrid" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 7.</h1>}><AgGrid /></ErrorBoundary>} />
-      <Route path="/aggridserverdata" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 7.</h1>}><GridExample /></ErrorBoundary>} />
+      <Route path="/aggridpaging" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 7.</h1>}><GridPaging /></ErrorBoundary>} />
+      <Route path="/aggridfiltering" element={<ErrorBoundary key={location.pathname} fallback={<h1>Oops! There was a problem 7.</h1>}><GridFiltering /></ErrorBoundary>} />
     </Routes >
   )
 }
