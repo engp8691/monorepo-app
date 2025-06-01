@@ -62,6 +62,12 @@ export const GridFiltering = () => {
     {
       field: 'athlete',
       filter: 'agTextColumnFilter',
+      cellStyle: params => {
+        if (/^Li /i.test(params.value)) {
+          return { color: 'red' }
+        }
+        return null
+      },
       minWidth: 220,
     },
     {
