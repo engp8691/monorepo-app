@@ -7,7 +7,8 @@
     "lint": "nx affected --target=lint --base=main --head=HEAD",
     "test": "nx affected --target=test --base=main --head=HEAD --skip-nx-cache",
     "lint:all": "nx run-many --target=lint --all --parallel=5",
-    "test:all": "nx run-many affected --target=test --all --parallel=5"
+    "test:all": "nx run-many affected --target=test --all --parallel=5",
+    "test:e2e": "nx run frontend-e2e:e2e"
   },
   "private": true,
   "dependencies": {
