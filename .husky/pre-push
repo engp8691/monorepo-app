@@ -2,4 +2,4 @@
 # . "$(dirname -- "$0")/_/husky.sh"
 
 # npm run lint:all && npm test:all && npm run e2e
-npm run test:e2e
+npx nx run frontend-e2e:e2e
