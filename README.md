@@ -93,7 +93,8 @@ And join the Nx community:
 - npx nx run frontend-e2e:e2e -- --project=chromium apps/frontend-e2e/src/form.spec.ts
 - npx nx affected -t lint test build e2e
 
-## Run e2e tests on your local machine
+## Run e2e tests on your lo
+cal machine
 
 - modify the `apps/frontend-e2e/playwright.config.ts` file by uncommenting line line 11 to line 14
 - npx nx run frontend-e2e:e2e
