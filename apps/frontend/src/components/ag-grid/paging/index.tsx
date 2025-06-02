@@ -55,7 +55,7 @@ const getServerSideDatasource: (server: any) => IServerSideDatasource = (
   }
 }
 
-export const GridPaging = () => {
+const GridPaging = () => {
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: 'id', maxWidth: 75 },
     { field: 'athlete', minWidth: 190 },
@@ -104,3 +104,5 @@ export const GridPaging = () => {
     </div>
   )
 }
+
+export default GridPaging

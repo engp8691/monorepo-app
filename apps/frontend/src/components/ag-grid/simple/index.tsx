@@ -11,7 +11,7 @@ export type ICar = {
 
 ModuleRegistry.registerModules([AllCommunityModule])
 
-export const AgGrid = () => {
+const AgGrid = () => {
 	const [rowData] = useState([
 		{ make: 'Tesla', model: 'Model Y', price: 64950, electric: true },
 		{ make: 'Ford', model: 'F-Series', price: 33850, electric: false },
@@ -49,3 +49,5 @@ export const AgGrid = () => {
 		</div>
 	)
 }
+
+export default AgGrid

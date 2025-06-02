@@ -15,6 +15,9 @@ import {
   NumberFilterModule,
   TextFilterModule,
   ValidationModule,
+  CellStyleModule,
+  PaginationModule,
+  RowStyleModule,
 } from 'ag-grid-community'
 import {
   ColumnMenuModule,
@@ -23,12 +26,16 @@ import {
 } from 'ag-grid-enterprise'
 import { IOlympicData } from '../common/interfaces'
 import { FakeServer } from '../common/fakeServer'
+import GoldCellRenderer from '../common/GoldCellRenderer'
 ModuleRegistry.registerModules([
   ColumnMenuModule,
   ContextMenuModule,
   ServerSideRowModelModule,
   TextFilterModule,
   NumberFilterModule,
+  CellStyleModule,
+  PaginationModule,
+  RowStyleModule,
   ...(process.env.NODE_ENV !== 'production' ? [ValidationModule] : []),
 ])
 
@@ -56,7 +63,14 @@ const getServerSideDatasource: (server: any) => IServerSideDatasource = (
   }
 }
 
-export const GridFiltering = () => {
+const getRowStyle = (params: any) => {
+  if (params?.data?.gold + params?.data?.silver + params?.data?.bronze > 4) {
+    return { backgroundColor: '#e3f1f2' }
+  }
+  return undefined
+}
+
+const GridFiltering = () => {
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: 'id', maxWidth: 75 },
     {
@@ -79,7 +93,7 @@ export const GridFiltering = () => {
         maxNumConditions: 1,
       },
     },
-    { field: 'gold', type: 'number' },
+    { field: 'gold', type: 'number', cellRenderer: GoldCellRenderer },
     { field: 'silver', type: 'number' },
     { field: 'bronze', type: 'number' },
   ])
@@ -112,7 +126,7 @@ export const GridFiltering = () => {
         // create datasource with a reference to the fake server
         const datasource = getServerSideDatasource(fakeServer)
         // register the datasource with the grid
-        params.api.setGridOption('serverSideDatasource', datasource)
+        setTimeout(() => params.api.setGridOption('serverSideDatasource', datasource), 0)
       })
   }, [])
 
@@ -126,8 +140,11 @@ export const GridFiltering = () => {
         pagination={true}
         paginationPageSize={20}
         cacheBlockSize={10}
+        getRowStyle={getRowStyle}
         onGridReady={onGridReady}
       />
     </div >
   )
 }
+
+export default GridFiltering

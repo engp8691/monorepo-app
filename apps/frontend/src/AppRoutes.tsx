@@ -12,11 +12,11 @@ import LazyLoadingSlowComponent from './components/lazy-demo/LazyLoadingSlowComp
 import { VirtualList } from './components/visual-list/VisualList'
 import { SelectorContextDemo } from './components/context-value-selector/SelectorContextDemo'
 import { Box } from '@chakra-ui/react'
-import { AgGrid } from './components/ag-grid/simple'
 import AppForm from './components/forms/AppForm'
 import { CancelablePost } from './components/forms/CancelablePost'
-import { GridFiltering } from './components/ag-grid/filtering'
-import { GridPaging } from './components/ag-grid/paging'
+// import AgGrid from './components/ag-grid/simple'
+// import GridFiltering from './components/ag-grid/filtering'
+// import GridPaging from './components/ag-grid/paging'
 import { AgGridWrapper } from './utils/AgGridWrapper'
 
 type Student = {
@@ -26,6 +26,9 @@ type Student = {
 // Lazy-loaded components
 const Home = lazy(() => import('./pages/Home'))
 const About = lazy(() => import('./pages/About'))
+const AgGrid = lazy(() => import('./components/ag-grid/simple'))
+const GridFiltering = lazy(() => import('./components/ag-grid/filtering'))
+const GridPaging = lazy(() => import('./components/ag-grid/paging'))
 
 const AppRouter: React.FC = () => {
   const { data, isFetching, error, refetch }: QueryResult<Student> = useQuery('https://jsonplaceholder.typicode.com/users/1')
