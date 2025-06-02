@@ -10,7 +10,7 @@ export default defineConfig({
   use: {
     headless: false,
     launchOptions: {
-      slowMo: 500,
+      slowMo: 600,
     },
     baseURL,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
