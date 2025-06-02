@@ -67,14 +67,14 @@ const Navbar = () => {
           <ChakraLink as={RouterLink} to="/visuallist" color="white" fontWeight="bold">
             Visual List
           </ChakraLink>
-          <ChakraLink as={RouterLink} to="/aggrid" color="white" fontWeight="bold">
+          {/* <ChakraLink as={RouterLink} to="/aggrid" color="white" fontWeight="bold">
             AG Grid
           </ChakraLink>
           <ChakraLink as={RouterLink} to="/aggridpaging" color="white" fontWeight="bold">
             AG Grid Paging
-          </ChakraLink>
+          </ChakraLink> */}
           <ChakraLink as={RouterLink} to="/aggridfiltering" color="white" fontWeight="bold">
-            AG Grid Filtering
+            AG Grid
           </ChakraLink>
         </HStack>
       </Flex>

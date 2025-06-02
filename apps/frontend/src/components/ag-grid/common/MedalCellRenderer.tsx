@@ -15,7 +15,7 @@ const icons = {
 }
 
 const MedalCellRenderer: React.FC<MedalCellRendererProps> = ({ value = 0, type }) => {
-  return <span>{value ? icons[type].repeat(value) : 0}</span>
+  return <span>{value || ''} {value && icons[type].repeat(value)}</span>
 }
 
 export const GoldMedalCellRenderer = ({ value = 0 }) => {

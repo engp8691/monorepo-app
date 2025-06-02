@@ -2,6 +2,7 @@
 
 import {
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from 'react'
@@ -128,6 +129,13 @@ const GridFiltering = () => {
         // register the datasource with the grid
         setTimeout(() => params.api.setGridOption('serverSideDatasource', datasource), 0)
       })
+  }, [])
+
+  useEffect(() => {
+    console.log('AG Grid component mounted')
+    return () => {
+      console.log('AG Grid component unmounted')
+    }
   }, [])
 
   return (
