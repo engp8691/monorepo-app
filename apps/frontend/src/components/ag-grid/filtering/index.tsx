@@ -26,7 +26,7 @@ import {
 } from 'ag-grid-enterprise'
 import { IOlympicData } from '../common/interfaces'
 import { FakeServer } from '../common/fakeServer'
-import GoldCellRenderer from '../common/GoldCellRenderer'
+import { GoldMedalCellRenderer, SilverMedalCellRenderer, BronzeMedalCellRenderer } from '../common/MedalCellRenderer'
 ModuleRegistry.registerModules([
   ColumnMenuModule,
   ContextMenuModule,
@@ -93,9 +93,9 @@ const GridFiltering = () => {
         maxNumConditions: 1,
       },
     },
-    { field: 'gold', type: 'number', cellRenderer: GoldCellRenderer },
-    { field: 'silver', type: 'number' },
-    { field: 'bronze', type: 'number' },
+    { field: 'gold', type: 'number', cellRenderer: GoldMedalCellRenderer },
+    { field: 'silver', type: 'number', cellRenderer: SilverMedalCellRenderer },
+    { field: 'bronze', type: 'number', cellRenderer: BronzeMedalCellRenderer },
   ])
   const defaultColDef = useMemo<ColDef>(() => {
     return {
