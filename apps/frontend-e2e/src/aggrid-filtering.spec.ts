@@ -5,7 +5,7 @@ test.beforeEach(async ({ page }) => {
 })
 
 test('AG Grid', async ({ page }) => {
-  await page.getByRole('link', { name: 'AG Grid Filtering' }).click()
+  await page.getByRole('link', { name: 'AG Grid' }).click()
   await expect(page).toHaveURL(/aggridfiltering/)
 
   await page
@@ -55,7 +55,7 @@ test('AG Grid', async ({ page }) => {
     .nth(2)
     .click()
   await expect(page.locator('.ag-menu.ag-filter-menu')).toBeHidden()
-  // await new Promise((resolve) => setTimeout(resolve, 5000))
+  await new Promise((resolve) => setTimeout(resolve, 5000))
 
   await page
     .locator('.ag-cell-label-container > .ag-header-icon > .ag-icon')
@@ -73,5 +73,5 @@ test('AG Grid', async ({ page }) => {
     .nth(2)
     .click()
   await expect(page.locator('.ag-menu.ag-filter-menu')).toBeHidden()
-  // await new Promise((resolve) => setTimeout(resolve, 1000))
+  await new Promise((resolve) => setTimeout(resolve, 5000))
 })

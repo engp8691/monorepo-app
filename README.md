@@ -93,9 +93,21 @@ And join the Nx community:
 - npx nx run frontend-e2e:e2e -- --project=chromium apps/frontend-e2e/src/form.spec.ts
 - npx nx affected -t lint test build e2e
 
+## Run e2e tests on your lo
+cal machine
+
+- modify the `apps/frontend-e2e/playwright.config.ts` file by uncommenting line line 11 to line 14
+- npx nx run frontend-e2e:e2e
+
+### Playwright can run all e2e tests in parallel, if we want to test or see a specific test only, it can be done with the following command
+
+- npx nx run frontend-e2e:e2e -- --project=chromium apps/frontend-e2e/src/aggrid-filtering.spec.ts
+- npx nx run frontend-e2e:e2e -- --project=chromium apps/frontend-e2e/src/form.spec.ts
+
 ### When pipeline fails to connect to nx cloud
 
 - npx nx connect-to-nx-cloud
 
 ## Augo playwright test generation
-npx playwright codegen http://localhost:4200
+
+npx playwright codegen <http://localhost:4200>

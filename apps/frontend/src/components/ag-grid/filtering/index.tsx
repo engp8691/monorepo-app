@@ -2,6 +2,7 @@
 
 import {
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from 'react'
@@ -126,8 +127,18 @@ const GridFiltering = () => {
         // create datasource with a reference to the fake server
         const datasource = getServerSideDatasource(fakeServer)
         // register the datasource with the grid
-        setTimeout(() => params.api.setGridOption('serverSideDatasource', datasource), 0)
+        setTimeout(() => {
+          params.api.setGridOption('serverSideDatasource', datasource)
+          console.log('AG Grid component ready.')
+        }, 0)
       })
+  }, [])
+
+  useEffect(() => {
+    console.log('AG Grid component mounted.')
+    return () => {
+      console.log('AG Grid component unmounted.')
+    }
   }, [])
 
   return (
@@ -142,6 +153,9 @@ const GridFiltering = () => {
         cacheBlockSize={10}
         getRowStyle={getRowStyle}
         onGridReady={onGridReady}
+        onGridPreDestroyed={() => {
+          console.log('AG Grid component is being destroyed.')
+        }}
       />
     </div >
   )
