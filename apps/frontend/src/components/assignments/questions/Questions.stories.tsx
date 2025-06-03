@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react'
-import ShowQuestion from '.'
+import ShowQuestion from './Questions'
 
 const meta: Meta<typeof ShowQuestion> = {
   title: 'Forms/Questions',
