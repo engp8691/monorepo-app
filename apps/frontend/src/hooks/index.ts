@@ -1,6 +1,8 @@
 import {
   createContext,
+  Dispatch,
   ReactNode,
+  SetStateAction,
   useCallback,
   useEffect,
   useMemo,
@@ -93,14 +95,15 @@ export const useCustomEffect = (
 
 export const useDebounce = <T>(value: T, delay: number): T => {
   const [debouncedValue, setDebouncedValue] = useState(value)
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined)
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       setDebouncedValue(value)
     }, delay)
 
     return () => {
-      clearTimeout(timer)
+      clearTimeout(timerRef.current)
     }
   }, [value, delay])
 
@@ -272,13 +275,17 @@ export function useForm<T>(params: {
 
 /////
 
-type User = {
-  name: string
-  email: string
-} | null
+export const useThrottleSet = <T>(
+  setFn: Dispatch<SetStateAction<T>>,
+  delay: number,
+) => {
+  const lastCallRef = useRef(0)
 
-type AuthContextType = {
-  user: User
-  login: (user: { name: string; email: string }) => void
-  logout: () => void
+  return (value: T) => {
+    const currentTime = Date.now()
+    if (currentTime - lastCallRef.current > delay) {
+      setFn(value)
+      lastCallRef.current = currentTime
+    }
+  }
 }
