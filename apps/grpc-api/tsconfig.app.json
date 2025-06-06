@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../dist/apps/grpc-api",
+    "rootDir": "src",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "ES2022",
+    "declaration": true,
+    "emitDeclarationOnly": false, // Keep this
+    "composite": true, // Required for Nx builds
+    "sourceMap": true,
+    "types": ["node"],
+    "tsBuildInfoFile": "../../dist/apps/grpc-api/tsconfig.app.tsbuildinfo"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["**/*.test.ts", "**/*.spec.ts"]
+}

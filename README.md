@@ -93,8 +93,7 @@ And join the Nx community:
 - npx nx run frontend-e2e:e2e -- --project=chromium apps/frontend-e2e/src/form.spec.ts
 - npx nx affected -t lint test build e2e
 
-## Run e2e tests on your lo
-cal machine
+## Run e2e tests on your local machine
 
 - modify the `apps/frontend-e2e/playwright.config.ts` file by uncommenting line line 11 to line 14
 - npx nx run frontend-e2e:e2e
@@ -108,6 +107,20 @@ cal machine
 
 - npx nx connect-to-nx-cloud
 
-## Augo playwright test generation
+## Auto playwright test generation
 
 npx playwright codegen <http://localhost:4200>
+
+## Add gRPC
+
+- brew install protobuf
+- npx nx g @nx/node:app grpc-api --directory=apps/grpc-api
+- npx nx g application apps/grpc-api --dry-run
+- npm install --save-dev ts-proto
+- npm install @grpc/grpc-js @grpc/proto-loader
+
+### Run the rpc server and client
+
+- npx nx run grpc-api:build-all
+- npx nx serve grpc-api
+- npx nx client grpc-api

@@ -113,6 +113,11 @@
       "library": {
         "style": "css",
         "linter": "eslint"
+      },
+      "@nx/node": {
+        "application": {
+          "directory": "apps"
+        }
       }
     }
   }
