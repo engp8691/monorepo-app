@@ -34,7 +34,7 @@
     "proto:gen": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./apps/grpc-api/src/generated --proto_path=./apps/grpc-api/protos ./apps/grpc-api/protos/*.proto"
+        "command": "protoc --plugin=protoc-gen-ts_proto=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./apps/grpc-api/src/generated --ts_proto_opt=esModuleInterop=true,outputServices=grpc-js,env=node,useOptionals=messages --proto_path=./apps/grpc-api/protos ./apps/grpc-api/protos/*.proto"
       }
     },
     "serve": {
@@ -50,7 +50,9 @@
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "_comments": {
+    "ESM-Output-command": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./apps/grpc-api/src/generated --proto_path=./apps/grpc-api/protos ./apps/grpc-api/protos/*.proto",
+    "Generates-gRPC-Services-command": "protoc --plugin=protoc-gen-ts_proto=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./apps/grpc-api/src/generated --ts_proto_opt=esModuleInterop=true,outputServices=grpc-js,env=node,useOptionals=messages --proto_path=./apps/grpc-api/protos ./apps/grpc-api/protos/*.proto"
+  }
 }
-
-

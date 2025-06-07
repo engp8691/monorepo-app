@@ -119,8 +119,14 @@ npx playwright codegen <http://localhost:4200>
 - npm install --save-dev ts-proto
 - npm install @grpc/grpc-js @grpc/proto-loader
 
-### Run the rpc server and client
+### Run the rpc server and client: simple echo message
 
 - npx nx run grpc-api:build-all
 - npx nx serve grpc-api
 - npx nx client grpc-api
+
+### Run the rpc server and client: order, user and product case
+
+- in the root folder of the repo
+- npm run start:dev  (to start server)
+- npx ts-node apps/grpc-api/src/clients/clients.ts (to run the clients)

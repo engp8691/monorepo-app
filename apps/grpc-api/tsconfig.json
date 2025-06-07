@@ -1,5 +1,15 @@
 {
   "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
+    "moduleDetection": "force",
+    "strict": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  },
   "files": [],
   "include": [],
   "references": [
