@@ -1,0 +1,12 @@
+syntax = "proto3";
+package ecommerce;
+
+import "common.proto";
+
+service OrderService {
+  rpc getOrder(GetOrderRequest) returns (ecommerce.common.Order);
+}
+
+message GetOrderRequest {
+  string order_id = 1;
+}

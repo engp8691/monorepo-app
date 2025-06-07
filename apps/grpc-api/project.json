@@ -1,0 +1,58 @@
+{
+  "name": "grpc-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/grpc-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "tsConfig": "apps/grpc-api/tsconfig.app.json",
+        "outputPath": "dist/apps/grpc-api",
+        "main": "apps/grpc-api/src/server.ts"
+      }
+    },
+    "copy-protos": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cp -R apps/grpc-api/protos dist/apps/grpc-api/protos"
+      }
+    },
+    "build-all": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx nx run grpc-api:build",
+          "npx nx run grpc-api:copy-protos"
+        ],
+        "parallel": false
+      }
+    },
+    "proto:gen": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "protoc --plugin=protoc-gen-ts_proto=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./apps/grpc-api/src/generated --ts_proto_opt=esModuleInterop=true,outputServices=grpc-js,env=node,useOptionals=messages --proto_path=./apps/grpc-api/protos ./apps/grpc-api/protos/*.proto"
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node dist/apps/grpc-api/src/server.js"
+      }
+    },
+    "client": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node dist/apps/grpc-api/src/client.js"
+      }
+    }
+  },
+  "tags": [],
+  "_comments": {
+    "ESM-Output-command": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./apps/grpc-api/src/generated --proto_path=./apps/grpc-api/protos ./apps/grpc-api/protos/*.proto",
+    "Generates-gRPC-Services-command": "protoc --plugin=protoc-gen-ts_proto=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./apps/grpc-api/src/generated --ts_proto_opt=esModuleInterop=true,outputServices=grpc-js,env=node,useOptionals=messages --proto_path=./apps/grpc-api/protos ./apps/grpc-api/protos/*.proto"
+  }
+}
