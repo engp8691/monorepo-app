@@ -9,8 +9,7 @@
     "e2e": "nx run frontend-e2e:e2e",
     "lint:all": "nx run-many --target=lint --all --parallel=5",
     "test:all": "nx run-many affected --target=test --all --parallel=5",
-    "start:dev": "ts-node-dev --respawn --transpile-only apps/grpc-api/src/main.ts",
-    "start:client": "ts-node-dev --respawn --transpile-only apps/grpc-api/src/clients/clients.ts"
+    "start:dev": "ts-node-dev --respawn --transpile-only apps/grpc-api/src/main.ts"
   },
   "private": true,
   "dependencies": {
