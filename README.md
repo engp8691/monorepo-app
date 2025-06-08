@@ -130,6 +130,7 @@ npx playwright codegen <http://localhost:4200>
 - in the root folder of the repo
 - npm run start:dev  (to start server)
 - npx ts-node apps/grpc-api/src/clients/clients.ts (to run the clients)
+- npx ts-node apps/grpc-api/src/clients/make-order.ts (make an order)
 
 ### Clean for re-install and re-run gRPC
 
