@@ -240,7 +240,7 @@ function startServer() {
       return
     }
     console.log(`✅ gRPC Server is running on ${address}`)
-    server.start()
+    // server.start()
   })
 }
 
