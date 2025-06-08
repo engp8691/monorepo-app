@@ -26,6 +26,11 @@ export interface GetUserRequest {
   userId: string;
 }
 
+export interface CreateUserRequest {
+  name: string;
+  email: string;
+}
+
 function createBaseGetUserRequest(): GetUserRequest {
   return { userId: "" };
 }
@@ -84,6 +89,82 @@ export const GetUserRequest: MessageFns<GetUserRequest> = {
   },
 };
 
+function createBaseCreateUserRequest(): CreateUserRequest {
+  return { name: "", email: "" };
+}
+
+export const CreateUserRequest: MessageFns<CreateUserRequest> = {
+  encode(message: CreateUserRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.name !== "") {
+      writer.uint32(10).string(message.name);
+    }
+    if (message.email !== "") {
+      writer.uint32(18).string(message.email);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateUserRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCreateUserRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.name = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.email = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): CreateUserRequest {
+    return {
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
+      email: isSet(object.email) ? globalThis.String(object.email) : "",
+    };
+  },
+
+  toJSON(message: CreateUserRequest): unknown {
+    const obj: any = {};
+    if (message.name !== "") {
+      obj.name = message.name;
+    }
+    if (message.email !== "") {
+      obj.email = message.email;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<CreateUserRequest>, I>>(base?: I): CreateUserRequest {
+    return CreateUserRequest.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<CreateUserRequest>, I>>(object: I): CreateUserRequest {
+    const message = createBaseCreateUserRequest();
+    message.name = object.name ?? "";
+    message.email = object.email ?? "";
+    return message;
+  },
+};
+
 export type UserServiceService = typeof UserServiceService;
 export const UserServiceService = {
   getUser: {
@@ -95,10 +176,20 @@ export const UserServiceService = {
     responseSerialize: (value: User): Buffer => Buffer.from(User.encode(value).finish()),
     responseDeserialize: (value: Buffer): User => User.decode(value),
   },
+  createUser: {
+    path: "/ecommerce.UserService/CreateUser",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: CreateUserRequest): Buffer => Buffer.from(CreateUserRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer): CreateUserRequest => CreateUserRequest.decode(value),
+    responseSerialize: (value: User): Buffer => Buffer.from(User.encode(value).finish()),
+    responseDeserialize: (value: Buffer): User => User.decode(value),
+  },
 } as const;
 
 export interface UserServiceServer extends UntypedServiceImplementation {
   getUser: handleUnaryCall<GetUserRequest, User>;
+  createUser: handleUnaryCall<CreateUserRequest, User>;
 }
 
 export interface UserServiceClient extends Client {
@@ -110,6 +201,21 @@ export interface UserServiceClient extends Client {
   ): ClientUnaryCall;
   getUser(
     request: GetUserRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: User) => void,
+  ): ClientUnaryCall;
+  createUser(
+    request: CreateUserRequest,
+    callback: (error: ServiceError | null, response: User) => void,
+  ): ClientUnaryCall;
+  createUser(
+    request: CreateUserRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: User) => void,
+  ): ClientUnaryCall;
+  createUser(
+    request: CreateUserRequest,
     metadata: Metadata,
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: User) => void,

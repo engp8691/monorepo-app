@@ -9,8 +9,6 @@ import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 
 export const protobufPackage = "ecommerce.common";
 
-/** protos/common.proto */
-
 export interface User {
   id: string;
   name: string;
@@ -21,12 +19,20 @@ export interface Product {
   id: string;
   name: string;
   price: number;
+  category: string;
 }
 
 export interface Order {
   id: string;
   userId: string;
   productIds: string[];
+  totalPrice: number;
+  status: string;
+}
+
+export interface InventoryItem {
+  productId: string;
+  quantity: number;
 }
 
 function createBaseUser(): User {
@@ -122,7 +128,7 @@ export const User: MessageFns<User> = {
 };
 
 function createBaseProduct(): Product {
-  return { id: "", name: "", price: 0 };
+  return { id: "", name: "", price: 0, category: "" };
 }
 
 export const Product: MessageFns<Product> = {
@@ -135,6 +141,9 @@ export const Product: MessageFns<Product> = {
     }
     if (message.price !== 0) {
       writer.uint32(25).double(message.price);
+    }
+    if (message.category !== "") {
+      writer.uint32(34).string(message.category);
     }
     return writer;
   },
@@ -170,6 +179,14 @@ export const Product: MessageFns<Product> = {
           message.price = reader.double();
           continue;
         }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.category = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -184,6 +201,7 @@ export const Product: MessageFns<Product> = {
       id: isSet(object.id) ? globalThis.String(object.id) : "",
       name: isSet(object.name) ? globalThis.String(object.name) : "",
       price: isSet(object.price) ? globalThis.Number(object.price) : 0,
+      category: isSet(object.category) ? globalThis.String(object.category) : "",
     };
   },
 
@@ -198,6 +216,9 @@ export const Product: MessageFns<Product> = {
     if (message.price !== 0) {
       obj.price = message.price;
     }
+    if (message.category !== "") {
+      obj.category = message.category;
+    }
     return obj;
   },
 
@@ -209,12 +230,13 @@ export const Product: MessageFns<Product> = {
     message.id = object.id ?? "";
     message.name = object.name ?? "";
     message.price = object.price ?? 0;
+    message.category = object.category ?? "";
     return message;
   },
 };
 
 function createBaseOrder(): Order {
-  return { id: "", userId: "", productIds: [] };
+  return { id: "", userId: "", productIds: [], totalPrice: 0, status: "" };
 }
 
 export const Order: MessageFns<Order> = {
@@ -227,6 +249,12 @@ export const Order: MessageFns<Order> = {
     }
     for (const v of message.productIds) {
       writer.uint32(26).string(v!);
+    }
+    if (message.totalPrice !== 0) {
+      writer.uint32(33).double(message.totalPrice);
+    }
+    if (message.status !== "") {
+      writer.uint32(42).string(message.status);
     }
     return writer;
   },
@@ -262,6 +290,22 @@ export const Order: MessageFns<Order> = {
           message.productIds.push(reader.string());
           continue;
         }
+        case 4: {
+          if (tag !== 33) {
+            break;
+          }
+
+          message.totalPrice = reader.double();
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.status = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -278,6 +322,8 @@ export const Order: MessageFns<Order> = {
       productIds: globalThis.Array.isArray(object?.productIds)
         ? object.productIds.map((e: any) => globalThis.String(e))
         : [],
+      totalPrice: isSet(object.totalPrice) ? globalThis.Number(object.totalPrice) : 0,
+      status: isSet(object.status) ? globalThis.String(object.status) : "",
     };
   },
 
@@ -292,6 +338,12 @@ export const Order: MessageFns<Order> = {
     if (message.productIds?.length) {
       obj.productIds = message.productIds;
     }
+    if (message.totalPrice !== 0) {
+      obj.totalPrice = message.totalPrice;
+    }
+    if (message.status !== "") {
+      obj.status = message.status;
+    }
     return obj;
   },
 
@@ -303,6 +355,84 @@ export const Order: MessageFns<Order> = {
     message.id = object.id ?? "";
     message.userId = object.userId ?? "";
     message.productIds = object.productIds?.map((e) => e) || [];
+    message.totalPrice = object.totalPrice ?? 0;
+    message.status = object.status ?? "";
+    return message;
+  },
+};
+
+function createBaseInventoryItem(): InventoryItem {
+  return { productId: "", quantity: 0 };
+}
+
+export const InventoryItem: MessageFns<InventoryItem> = {
+  encode(message: InventoryItem, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.productId !== "") {
+      writer.uint32(10).string(message.productId);
+    }
+    if (message.quantity !== 0) {
+      writer.uint32(16).int32(message.quantity);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): InventoryItem {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseInventoryItem();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.productId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.quantity = reader.int32();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): InventoryItem {
+    return {
+      productId: isSet(object.productId) ? globalThis.String(object.productId) : "",
+      quantity: isSet(object.quantity) ? globalThis.Number(object.quantity) : 0,
+    };
+  },
+
+  toJSON(message: InventoryItem): unknown {
+    const obj: any = {};
+    if (message.productId !== "") {
+      obj.productId = message.productId;
+    }
+    if (message.quantity !== 0) {
+      obj.quantity = Math.round(message.quantity);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<InventoryItem>, I>>(base?: I): InventoryItem {
+    return InventoryItem.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<InventoryItem>, I>>(object: I): InventoryItem {
+    const message = createBaseInventoryItem();
+    message.productId = object.productId ?? "";
+    message.quantity = object.quantity ?? 0;
     return message;
   },
 };
