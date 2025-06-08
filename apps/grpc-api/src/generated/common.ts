@@ -35,6 +35,24 @@ export interface InventoryItem {
   quantity: number;
 }
 
+export interface InventoryStatus {
+  productId: string;
+  available: boolean;
+  quantity: number;
+}
+
+export interface PaymentResult {
+  success: boolean;
+  transactionId: string;
+  message: string;
+}
+
+export interface UpdateInventoryRequest {
+  productId: string;
+  /** Negative to reduce stock */
+  quantityChange: number;
+}
+
 function createBaseUser(): User {
   return { id: "", name: "", email: "" };
 }
@@ -433,6 +451,266 @@ export const InventoryItem: MessageFns<InventoryItem> = {
     const message = createBaseInventoryItem();
     message.productId = object.productId ?? "";
     message.quantity = object.quantity ?? 0;
+    return message;
+  },
+};
+
+function createBaseInventoryStatus(): InventoryStatus {
+  return { productId: "", available: false, quantity: 0 };
+}
+
+export const InventoryStatus: MessageFns<InventoryStatus> = {
+  encode(message: InventoryStatus, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.productId !== "") {
+      writer.uint32(10).string(message.productId);
+    }
+    if (message.available !== false) {
+      writer.uint32(16).bool(message.available);
+    }
+    if (message.quantity !== 0) {
+      writer.uint32(24).int32(message.quantity);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): InventoryStatus {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseInventoryStatus();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.productId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.available = reader.bool();
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.quantity = reader.int32();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): InventoryStatus {
+    return {
+      productId: isSet(object.productId) ? globalThis.String(object.productId) : "",
+      available: isSet(object.available) ? globalThis.Boolean(object.available) : false,
+      quantity: isSet(object.quantity) ? globalThis.Number(object.quantity) : 0,
+    };
+  },
+
+  toJSON(message: InventoryStatus): unknown {
+    const obj: any = {};
+    if (message.productId !== "") {
+      obj.productId = message.productId;
+    }
+    if (message.available !== false) {
+      obj.available = message.available;
+    }
+    if (message.quantity !== 0) {
+      obj.quantity = Math.round(message.quantity);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<InventoryStatus>, I>>(base?: I): InventoryStatus {
+    return InventoryStatus.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<InventoryStatus>, I>>(object: I): InventoryStatus {
+    const message = createBaseInventoryStatus();
+    message.productId = object.productId ?? "";
+    message.available = object.available ?? false;
+    message.quantity = object.quantity ?? 0;
+    return message;
+  },
+};
+
+function createBasePaymentResult(): PaymentResult {
+  return { success: false, transactionId: "", message: "" };
+}
+
+export const PaymentResult: MessageFns<PaymentResult> = {
+  encode(message: PaymentResult, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.success !== false) {
+      writer.uint32(8).bool(message.success);
+    }
+    if (message.transactionId !== "") {
+      writer.uint32(18).string(message.transactionId);
+    }
+    if (message.message !== "") {
+      writer.uint32(26).string(message.message);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): PaymentResult {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBasePaymentResult();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.success = reader.bool();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.transactionId = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.message = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): PaymentResult {
+    return {
+      success: isSet(object.success) ? globalThis.Boolean(object.success) : false,
+      transactionId: isSet(object.transactionId) ? globalThis.String(object.transactionId) : "",
+      message: isSet(object.message) ? globalThis.String(object.message) : "",
+    };
+  },
+
+  toJSON(message: PaymentResult): unknown {
+    const obj: any = {};
+    if (message.success !== false) {
+      obj.success = message.success;
+    }
+    if (message.transactionId !== "") {
+      obj.transactionId = message.transactionId;
+    }
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<PaymentResult>, I>>(base?: I): PaymentResult {
+    return PaymentResult.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<PaymentResult>, I>>(object: I): PaymentResult {
+    const message = createBasePaymentResult();
+    message.success = object.success ?? false;
+    message.transactionId = object.transactionId ?? "";
+    message.message = object.message ?? "";
+    return message;
+  },
+};
+
+function createBaseUpdateInventoryRequest(): UpdateInventoryRequest {
+  return { productId: "", quantityChange: 0 };
+}
+
+export const UpdateInventoryRequest: MessageFns<UpdateInventoryRequest> = {
+  encode(message: UpdateInventoryRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.productId !== "") {
+      writer.uint32(10).string(message.productId);
+    }
+    if (message.quantityChange !== 0) {
+      writer.uint32(16).int32(message.quantityChange);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): UpdateInventoryRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseUpdateInventoryRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.productId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.quantityChange = reader.int32();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): UpdateInventoryRequest {
+    return {
+      productId: isSet(object.productId) ? globalThis.String(object.productId) : "",
+      quantityChange: isSet(object.quantityChange) ? globalThis.Number(object.quantityChange) : 0,
+    };
+  },
+
+  toJSON(message: UpdateInventoryRequest): unknown {
+    const obj: any = {};
+    if (message.productId !== "") {
+      obj.productId = message.productId;
+    }
+    if (message.quantityChange !== 0) {
+      obj.quantityChange = Math.round(message.quantityChange);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<UpdateInventoryRequest>, I>>(base?: I): UpdateInventoryRequest {
+    return UpdateInventoryRequest.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<UpdateInventoryRequest>, I>>(object: I): UpdateInventoryRequest {
+    const message = createBaseUpdateInventoryRequest();
+    message.productId = object.productId ?? "";
+    message.quantityChange = object.quantityChange ?? 0;
     return message;
   },
 };
