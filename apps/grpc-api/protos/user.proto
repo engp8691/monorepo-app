@@ -4,7 +4,7 @@ package ecommerce;
 import "common.proto";
 
 service UserService {
-  rpc getUser(GetUserRequest) returns (ecommerce.common.User);
+  rpc GetUser(GetUserRequest) returns (ecommerce.common.User);
 }
 
 message GetUserRequest {

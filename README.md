@@ -130,3 +130,11 @@ npx playwright codegen <http://localhost:4200>
 - in the root folder of the repo
 - npm run start:dev  (to start server)
 - npx ts-node apps/grpc-api/src/clients/clients.ts (to run the clients)
+
+### Clean for re-install and re-run gRPC
+
+- rm -rf node_modules
+- rm -rf package-lock.json
+- rm -rf apps/grpc-api/src/generated/*.ts
+- npm cache clean --force
+- npm run proto:gen

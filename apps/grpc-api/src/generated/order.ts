@@ -87,7 +87,7 @@ export const GetOrderRequest: MessageFns<GetOrderRequest> = {
 export type OrderServiceService = typeof OrderServiceService;
 export const OrderServiceService = {
   getOrder: {
-    path: "/ecommerce.OrderService/getOrder",
+    path: "/ecommerce.OrderService/GetOrder",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: GetOrderRequest): Buffer => Buffer.from(GetOrderRequest.encode(value).finish()),

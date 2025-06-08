@@ -61,8 +61,5 @@
         }
       }
     }
-  },
-  "scripts": {
-    "proto:gen": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./apps/grpc-api/src/generated --proto_path=./apps/grpc-api/protos ./apps/grpc-api/protos/*.proto"
   }
 }

@@ -87,7 +87,7 @@ export const GetUserRequest: MessageFns<GetUserRequest> = {
 export type UserServiceService = typeof UserServiceService;
 export const UserServiceService = {
   getUser: {
-    path: "/ecommerce.UserService/getUser",
+    path: "/ecommerce.UserService/GetUser",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: GetUserRequest): Buffer => Buffer.from(GetUserRequest.encode(value).finish()),
