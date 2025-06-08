@@ -26,6 +26,14 @@ export interface GetProductRequest {
   productId: string;
 }
 
+export interface ListProductsRequest {
+  category: string;
+}
+
+export interface ListProductsResponse {
+  products: Product[];
+}
+
 function createBaseGetProductRequest(): GetProductRequest {
   return { productId: "" };
 }
@@ -84,6 +92,124 @@ export const GetProductRequest: MessageFns<GetProductRequest> = {
   },
 };
 
+function createBaseListProductsRequest(): ListProductsRequest {
+  return { category: "" };
+}
+
+export const ListProductsRequest: MessageFns<ListProductsRequest> = {
+  encode(message: ListProductsRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.category !== "") {
+      writer.uint32(10).string(message.category);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ListProductsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseListProductsRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.category = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ListProductsRequest {
+    return { category: isSet(object.category) ? globalThis.String(object.category) : "" };
+  },
+
+  toJSON(message: ListProductsRequest): unknown {
+    const obj: any = {};
+    if (message.category !== "") {
+      obj.category = message.category;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ListProductsRequest>, I>>(base?: I): ListProductsRequest {
+    return ListProductsRequest.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ListProductsRequest>, I>>(object: I): ListProductsRequest {
+    const message = createBaseListProductsRequest();
+    message.category = object.category ?? "";
+    return message;
+  },
+};
+
+function createBaseListProductsResponse(): ListProductsResponse {
+  return { products: [] };
+}
+
+export const ListProductsResponse: MessageFns<ListProductsResponse> = {
+  encode(message: ListProductsResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.products) {
+      Product.encode(v!, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ListProductsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseListProductsResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.products.push(Product.decode(reader, reader.uint32()));
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ListProductsResponse {
+    return {
+      products: globalThis.Array.isArray(object?.products) ? object.products.map((e: any) => Product.fromJSON(e)) : [],
+    };
+  },
+
+  toJSON(message: ListProductsResponse): unknown {
+    const obj: any = {};
+    if (message.products?.length) {
+      obj.products = message.products.map((e) => Product.toJSON(e));
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ListProductsResponse>, I>>(base?: I): ListProductsResponse {
+    return ListProductsResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ListProductsResponse>, I>>(object: I): ListProductsResponse {
+    const message = createBaseListProductsResponse();
+    message.products = object.products?.map((e) => Product.fromPartial(e)) || [];
+    return message;
+  },
+};
+
 export type ProductServiceService = typeof ProductServiceService;
 export const ProductServiceService = {
   getProduct: {
@@ -95,10 +221,21 @@ export const ProductServiceService = {
     responseSerialize: (value: Product): Buffer => Buffer.from(Product.encode(value).finish()),
     responseDeserialize: (value: Buffer): Product => Product.decode(value),
   },
+  listProducts: {
+    path: "/ecommerce.ProductService/ListProducts",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: ListProductsRequest): Buffer => Buffer.from(ListProductsRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer): ListProductsRequest => ListProductsRequest.decode(value),
+    responseSerialize: (value: ListProductsResponse): Buffer =>
+      Buffer.from(ListProductsResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer): ListProductsResponse => ListProductsResponse.decode(value),
+  },
 } as const;
 
 export interface ProductServiceServer extends UntypedServiceImplementation {
   getProduct: handleUnaryCall<GetProductRequest, Product>;
+  listProducts: handleUnaryCall<ListProductsRequest, ListProductsResponse>;
 }
 
 export interface ProductServiceClient extends Client {
@@ -116,6 +253,21 @@ export interface ProductServiceClient extends Client {
     metadata: Metadata,
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: Product) => void,
+  ): ClientUnaryCall;
+  listProducts(
+    request: ListProductsRequest,
+    callback: (error: ServiceError | null, response: ListProductsResponse) => void,
+  ): ClientUnaryCall;
+  listProducts(
+    request: ListProductsRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: ListProductsResponse) => void,
+  ): ClientUnaryCall;
+  listProducts(
+    request: ListProductsRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: ListProductsResponse) => void,
   ): ClientUnaryCall;
 }
 

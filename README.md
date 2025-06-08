@@ -130,6 +130,7 @@ npx playwright codegen <http://localhost:4200>
 - in the root folder of the repo
 - npm run start:dev  (to start server)
 - npx ts-node apps/grpc-api/src/clients/clients.ts (to run the clients)
+- npx ts-node apps/grpc-api/src/clients/make-order.ts (make an order)
 
 ### Clean for re-install and re-run gRPC
 
@@ -138,3 +139,28 @@ npx playwright codegen <http://localhost:4200>
 - rm -rf apps/grpc-api/src/generated/*.ts
 - npm cache clean --force
 - npm run proto:gen
+
+### explainations on Services interactions
+
+``
+Service Interaction Flow
+OrderService.CreateOrder:
+
+Calls ProductService.GetProduct for price
+
+Calls InventoryService.CheckInventory to confirm stock
+
+Calls PaymentService.ProcessPayment to process payment
+
+On success, saves order and calls InventoryService.UpdateInventory
+
+ProductService:
+
+Only manages product info
+
+Used by both frontend and OrderService
+
+UserService:
+
+Returns user info for OrderService, PaymentService, and CustomerService
+``
