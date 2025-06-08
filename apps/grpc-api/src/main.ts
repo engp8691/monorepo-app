@@ -22,15 +22,7 @@ import {
   PaymentServiceClient,
 } from './generated/payment'
 
-import {
-  User,
-  Product,
-  Order,
-  InventoryStatus,
-  PaymentResult,
-  UpdateInventoryRequest,
-  InventoryItem,
-} from './generated/common'
+import { User, Product, Order, InventoryItem } from './generated/common'
 
 const mockProduct: Product = {
   id: 'p1',
