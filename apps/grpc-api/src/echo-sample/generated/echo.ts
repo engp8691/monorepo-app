@@ -147,8 +147,8 @@ export const EchoResponse: MessageFns<EchoResponse> = {
 
 export type EchoServiceService = typeof EchoServiceService;
 export const EchoServiceService = {
-  echo: {
-    path: "/echo.EchoService/Echo",
+  echoBack: {
+    path: "/echo.EchoService/EchoBack",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: EchoRequest): Buffer => Buffer.from(EchoRequest.encode(value).finish()),
@@ -159,17 +159,20 @@ export const EchoServiceService = {
 } as const;
 
 export interface EchoServiceServer extends UntypedServiceImplementation {
-  echo: handleUnaryCall<EchoRequest, EchoResponse>;
+  echoBack: handleUnaryCall<EchoRequest, EchoResponse>;
 }
 
 export interface EchoServiceClient extends Client {
-  echo(request: EchoRequest, callback: (error: ServiceError | null, response: EchoResponse) => void): ClientUnaryCall;
-  echo(
+  echoBack(
+    request: EchoRequest,
+    callback: (error: ServiceError | null, response: EchoResponse) => void,
+  ): ClientUnaryCall;
+  echoBack(
     request: EchoRequest,
     metadata: Metadata,
     callback: (error: ServiceError | null, response: EchoResponse) => void,
   ): ClientUnaryCall;
-  echo(
+  echoBack(
     request: EchoRequest,
     metadata: Metadata,
     options: Partial<CallOptions>,

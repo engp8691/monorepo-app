@@ -1,38 +1,39 @@
 import * as grpc from '@grpc/grpc-js'
-import * as protoLoader from '@grpc/proto-loader'
-import path from 'path'
+import {
+  EchoServiceService,
+  EchoServiceServer,
+  EchoResponse,
+} from './generated/echo'
+import { ServerStatusResponse } from '@grpc/grpc-js/build/src/server-call'
 
-// Proto file path
-const PROTO_PATH = path.join(__dirname, './protos/echo.proto')
+// ------------------- Services ------------------- //
+// EchoService: provides echo service
+const echoService: EchoServiceServer = {
+  echoBack: (call, callback) => {
+    const error: grpc.ServerErrorResponse | ServerStatusResponse | null = null
+    const metadata = call.metadata
+    const authToken = metadata.get('authorization')
+    console.log('Authorization token:', authToken)
+    // Options
+    console.log('Client Peer:', call.getPeer())
+    console.log('Was Cancelled:', call.cancelled)
+    console.log('Call deadline:', call.getDeadline())
 
-// Load proto file
-const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
-  keepCase: true,
-  longs: String,
-  enums: String,
-  defaults: true,
-  oneofs: true,
-})
+    const response: EchoResponse = {
+      message: call.request.message,
+    }
 
-// Load package definition
-const protoDescriptor = grpc.loadPackageDefinition(packageDefinition) as any
-const echoPackage = protoDescriptor.echo
-
-// Implement Echo service
-const echoService = {
-  Echo: (
-    call: grpc.ServerUnaryCall<any, any>,
-    callback: grpc.sendUnaryData<any>,
-  ) => {
-    console.log('Received message:', call.request.message)
-    callback(null, { message: call.request.message })
+    callback(error, response)
   },
 }
 
-function main() {
-  const server = new grpc.Server()
-  server.addService(echoPackage.EchoService.service, echoService)
+// ------------------- Server Bootstrap ------------------- //
+function startServer() {
   const bindAddress = '0.0.0.0:50051'
+  const server = new grpc.Server()
+
+  server.addService(EchoServiceService, echoService)
+
   server.bindAsync(
     bindAddress,
     grpc.ServerCredentials.createInsecure(),
@@ -42,9 +43,9 @@ function main() {
         return
       }
       console.log(`Server listening on ${bindAddress}`)
-      server.start()
+      // server.start()
     },
   )
 }
 
-main()
+startServer()
