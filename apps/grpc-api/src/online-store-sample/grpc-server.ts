@@ -64,6 +64,8 @@ const userService: UserServiceServer = {
 // ProductService: manages product info, used by OrderService and frontend
 const productService: ProductServiceServer = {
   getProduct: (call, callback) => {
+    // DB connection and query and other logic.
+    // It simpply returns a mock product here
     const response: Product = {
       id: call.request.productId,
       name: mockProduct.name,
@@ -74,6 +76,8 @@ const productService: ProductServiceServer = {
   },
 
   listProducts: (call, callback) => {
+    // DB connection and query and other logic.
+    // It simpply returns a mocked array of products
     const response: ListProductsResponse = {
       products: [
         {

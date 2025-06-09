@@ -1,11 +1,5 @@
 # MonorepoApp
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
-
-## Finish your CI setup
-
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/mQKkAeobkc)
-
 ## Run tasks
 
 To run the dev server for your app, use:
@@ -26,121 +20,165 @@ To see all available targets to run for a project, run:
 npx nx show project frontend
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
+## The commands to do all tests
 
 ```sh
-npx nx g @nx/react:app demo
+npx vitest run apps/frontend/src/app/app.test.tsx --coverage
 ```
-
-To generate a new library, use:
 
 ```sh
-npx nx g @nx/react:lib mylib
+npx nx test frontend --coverage
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+```sh
+npx vitest run apps/backend/src/app/tests/employees.test.ts --coverage
+```
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```sh
+npx nx test backend --coverage
+```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```sh
+npx nx serve frontend
+```
 
-## Install Nx Console
+```sh
+npx nx serve backend
+```
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+```sh
+npx nx run frontend:storybook
+```
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```sh
+npx nx run frontend-e2e:e2e
+```
 
-## Useful links
+```sh
+npx nx run frontend-e2e:e2e -- --project=chromium apps/frontend-e2e/src/form.spec.ts
+```
 
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## The commands to do the test
-
-- npx vitest run apps/frontend/src/app/app.test.tsx --coverage
-- npx nx test frontend --coverage
-- npx vitest run apps/backend/src/app/tests/employees.test.ts --coverage
-- npx nx test backend --coverage
-- npx nx serve frontend
-- npx nx serve backend
-- npx nx run frontend:storybook
-- npx nx run frontend-e2e:e2e
-- npx nx run frontend-e2e:e2e -- --project=chromium apps/frontend-e2e/src/form.spec.ts
-- npx nx affected -t lint test build e2e
+```sh
+npx nx affected -t lint test build e2e
+```
 
 ## Run e2e tests on your local machine
 
-- modify the `apps/frontend-e2e/playwright.config.ts` file by uncommenting line line 11 to line 14
-- npx nx run frontend-e2e:e2e
+```sh
+modify the `apps/frontend-e2e/playwright.config.ts` file by uncommenting line line 11 to line 14
+```
+
+```sh
+npx nx run frontend-e2e:e2e
+```
 
 ### Playwright can run all e2e tests in parallel, if we want to test or see a specific test only, it can be done with the following command
 
-- npx nx run frontend-e2e:e2e -- --project=chromium apps/frontend-e2e/src/aggrid-filtering.spec.ts
-- npx nx run frontend-e2e:e2e -- --project=chromium apps/frontend-e2e/src/form.spec.ts
+```sh
+npx nx run frontend-e2e:e2e -- --project=chromium apps/frontend-e2e/src/aggrid-filtering.spec.ts
+```
+
+```sh
+npx nx run frontend-e2e:e2e -- --project=chromium apps/frontend-e2e/src/form.spec.ts
+```
 
 ### When pipeline fails to connect to nx cloud
 
-- npx nx connect-to-nx-cloud
+```sh
+npx nx connect-to-nx-cloud
+```
 
 ## Auto playwright test generation
 
+```sh
 npx playwright codegen <http://localhost:4200>
+```
 
 ## Add gRPC
 
-- brew install protobuf
-- npx nx g @nx/node:app grpc-api --directory=apps/grpc-api
-- npx nx g application apps/grpc-api --dry-run
-- npm install --save-dev ts-proto
-- npm install @grpc/grpc-js @grpc/proto-loader
+```sh
+brew install protobuf
+```
 
-### Run the rpc server and client: simple echo message
+```sh
+npx nx g @nx/node:app grpc-api --directory=apps/grpc-api
+```
 
-- npx nx run grpc-api:build-all
-- npx nx serve grpc-api
-- npx nx client grpc-api
+```sh
+npx nx g application apps/grpc-api --dry-run
+```
+
+```sh
+npm install --save-dev ts-proto
+```
+
+```sh
+npm install @grpc/grpc-js @grpc/proto-loader
+```
 
 ### Run the rpc server and client: order, user and product case
 
-- in the root folder of the repo
-- npm run start:dev  (to start server)
-- npx ts-node apps/grpc-api/src/clients/clients.ts (to run the clients)
-- npx ts-node apps/grpc-api/src/clients/make-order-client.ts (make an order)
+### Start it in the root folder of the repo
+
+```sh
+cd /the/path/to/your/this/monorepo_app
+```
 
 ### Clean for re-install and re-run gRPC
 
-- rm -rf node_modules
-- rm -rf package-lock.json
-- rm -rf apps/grpc-api/src/generated/*.ts
-- npm cache clean --force
-- npm run proto:gen
+```sh
+rm -rf node_modules
+```
+
+```sh
+rm -rf package-lock.json
+```
+
+```sh
+rm -rf apps/grpc-api/src/online-store-sample/generated/*.ts
+```
+
+```sh
+npm cache clean --force
+```
+
+```sh
+npm install
+```
+
+```sh
+npm run proto:gen
+```
+
+### To start server
+
+```sh
+npm run proto:server:start
+```
+
+### To run and check all the clients
+
+```sh
+npx ts-node apps/grpc-api/src/online-store-sample/clients/clients.ts
+```
+
+### To test making an order
+
+```sh
+npx ts-node apps/grpc-api/src/online-store-sample/clients/make-order-client.ts
+```
 
 ### explainations on Services interactions
+
+The is a system of sample online store includes User, Product, Order, Inventory and Payment services.
+When an order is made, all the services interact together via gRPC.
+The majar interactions and steps are discribed as follows
 
 ```sh
 Service Interaction Flow
 OrderService.CreateOrder:
+
+Call UserService.GetUser for user verification
 
 Calls ProductService.GetProduct for price
 

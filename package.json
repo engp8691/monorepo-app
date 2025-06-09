@@ -9,9 +9,9 @@
     "e2e": "nx run frontend-e2e:e2e",
     "lint:all": "nx run-many --target=lint --all --parallel=5",
     "test:all": "nx run-many affected --target=test --all --parallel=5",
-    "start:dev": "ts-node-dev --respawn --transpile-only apps/grpc-api/src/main.ts",
+    "proto:server:start": "ts-node-dev --respawn --transpile-only apps/grpc-api/src/online-store-sample/grpc-server.ts",
     "proto:gen-only-message:": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./apps/grpc-api/src/generated --proto_path=./apps/grpc-api/protos ./apps/grpc-api/protos/*.proto",
-    "proto:gen": "protoc --plugin=protoc-gen-ts_proto=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./apps/grpc-api/src/generated --ts_proto_opt=esModuleInterop=true,outputServices=grpc-js,env=node,useOptionals=messages --proto_path=./apps/grpc-api/protos ./apps/grpc-api/protos/*.proto"
+    "proto:gen": "protoc --plugin=protoc-gen-ts_proto=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./apps/grpc-api/src/online-store-sample/generated --ts_proto_opt=esModuleInterop=true,outputServices=grpc-js,env=node,useOptionals=messages --proto_path=./apps/grpc-api/src/online-store-sample/protos ./apps/grpc-api/src/online-store-sample/protos/*.proto"
   },
   "private": true,
   "dependencies": {

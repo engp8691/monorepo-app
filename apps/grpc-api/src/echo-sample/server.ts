@@ -3,7 +3,7 @@ import * as protoLoader from '@grpc/proto-loader'
 import path from 'path'
 
 // Proto file path
-const PROTO_PATH = path.join(__dirname, '../protos/echo.proto')
+const PROTO_PATH = path.join(__dirname, './protos/echo.proto')
 
 // Load proto file
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
