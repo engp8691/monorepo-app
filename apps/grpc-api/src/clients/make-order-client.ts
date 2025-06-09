@@ -5,7 +5,7 @@ import {
   CreateOrderRequest,
 } from '../generated/order'
 import { ProductServiceClient } from '../generated/product'
-import { Order, Product } from '../generated/common'
+import { Order, Product, User } from '../generated/common'
 import {
   CheckInventoryResponse,
   InventoryServiceClient,
@@ -14,6 +14,7 @@ import {
   PaymentServiceClient,
   ProcessPaymentResponse,
 } from '../generated/payment'
+import { GetUserRequest, UserServiceClient } from '../generated/user'
 
 // Common gRPC server address
 const grpcAddress = 'localhost:50051'
@@ -30,12 +31,20 @@ const productClient = new ProductServiceClient(
   grpc.credentials.createInsecure(),
 )
 
+// Inventory client
 const inventoryClient = new InventoryServiceClient(
   grpcAddress,
   grpc.credentials.createInsecure(),
 )
 
+// Payment client
 const paymentClient = new PaymentServiceClient(
+  grpcAddress,
+  grpc.credentials.createInsecure(),
+)
+
+// User client
+const userClient = new UserServiceClient(
   grpcAddress,
   grpc.credentials.createInsecure(),
 )
@@ -46,7 +55,24 @@ async function createOrderExample() {
     productIds: ['p1', 'p2'],
   }
 
-  // Step 1: Get product details (prices)
+  const request: GetUserRequest = { userId: 'user-123' }
+  const userResponse: User = await new Promise((resolve, reject) => {
+    userClient.getUser(request, (err, response) => {
+      if (err) return reject(err)
+      resolve(response)
+    })
+  })
+
+  // Step 1: Check User
+  if (userResponse.id !== 'user-123') {
+    return Promise.reject({
+      name: 'UnauthorizedUser',
+      message: 'Unauthorized user',
+      code: grpc.status.PERMISSION_DENIED,
+    })
+  }
+
+  // Step 2: Get product details (prices)
   const productPromises = req.productIds.map(
     (id) =>
       new Promise<Product>((resolve, reject) => {
@@ -67,7 +93,7 @@ async function createOrderExample() {
   console.log('Products are:', products)
   console.log('TotalPrice is:', totalPrice)
 
-  // Step 2: Check Inventory
+  // Step 3: Check Inventory
   const inventoryRes: CheckInventoryResponse = await new Promise(
     (resolve, reject) => {
       inventoryClient.checkInventory(
@@ -92,7 +118,7 @@ async function createOrderExample() {
     !!outOfStock,
   )
 
-  // Step 3: Process Payment
+  // Step 4: Process Payment
   const paymentRes: ProcessPaymentResponse = await new Promise(
     (resolve, reject) => {
       paymentClient.processPayment(
@@ -112,7 +138,7 @@ async function createOrderExample() {
 
   console.log('Step 3 Make payment for the order:', paymentRes.success)
 
-  // Step 4: Save Order (simulate)
+  // Step 5: Save Order (simulate)
   const order: Order = {
     id: 'order-temp-id',
     userId: req.userId,
@@ -122,7 +148,7 @@ async function createOrderExample() {
   }
   console.log('Step 4 Record the order as pending:', order)
 
-  // Step 5: Update Inventory
+  // Step 6: Update Inventory
   await new Promise<void>((resolve, reject) => {
     inventoryClient.updateInventory(
       {
@@ -141,7 +167,7 @@ async function createOrderExample() {
 
   console.log('Step 5 Update product inventory:')
 
-  // Step 6: It can be async, usually this is done by using kafka or RabbitMQ in Java
+  // Step 7: It can be async, usually this is done by using kafka or RabbitMQ in Java
 
   console.log('Order creation process completed successfully')
 }
