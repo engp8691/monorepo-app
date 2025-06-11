@@ -51,7 +51,7 @@ jobs:
         run: docker-compose up --build -d
 
       - name: Wait for backend to start
-        run: sleep 10
+        run: sleep 5
 
       - name: 🧪 Run health test
         run: curl -f http://localhost:3000/ping || exit 1
