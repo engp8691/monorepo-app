@@ -50,7 +50,10 @@ jobs:
       - name: ⬆️ Compose Up
         run: docker-compose up --build -d
 
-      - name: 🧪 (Optional) Run integration tests
+      - name: Wait for backend to start
+        run: sleep 10
+
+      - name: 🧪 Run health test
         run: curl -f http://localhost:3000/ping || exit 1
 
       - name: 🧹 Clean up containers
