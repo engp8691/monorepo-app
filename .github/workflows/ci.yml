@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 jobs:
-  build-and-deploy:
+  main:
     runs-on: ubuntu-latest
 
     services:
@@ -33,6 +33,7 @@ jobs:
 
       - name: 📦 Install dependencies
         run: npm ci --legacy-peer-deps
+      - uses: nrwl/nx-set-shas@v4
 
       - name: 🔨 Test and build all apps
         run: npx nx affected -t lint test build
