@@ -50,8 +50,8 @@ jobs:
       - name: ⬆️ Compose Up
         run: docker-compose up --build -d
 
-      # - name: 🧪 (Optional) Run integration tests
-      #   run: curl -f http://localhost:3000/ping || exit 1
+      - name: 🧪 (Optional) Run integration tests
+        run: curl -f http://localhost:3000/ping || exit 1
 
       - name: 🧹 Clean up containers
         if: always()
