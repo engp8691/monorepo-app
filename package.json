@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "if [ \"$NODE_ENV\" != \"production\" ]; then husky install; fi",
     "lint": "nx affected --target=lint --base=main --head=HEAD",
     "test": "nx affected --target=test --base=main --head=HEAD --skip-nx-cache",
     "e2e": "nx run frontend-e2e:e2e",
@@ -30,6 +30,7 @@
     "@grpc/grpc-js": "^1.13.4",
     "@grpc/proto-loader": "^0.7.15",
     "@hookform/resolvers": "^5.0.1",
+    "@sinclair/typebox": "^0.34.33",
     "ag-grid-community": "33.3.1",
     "ag-grid-enterprise": "33.3.1",
     "ag-grid-react": "33.3.1",

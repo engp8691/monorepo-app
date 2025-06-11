@@ -198,3 +198,20 @@ UserService:
 
 Returns user info for OrderService, PaymentService, and CustomerService
 ```
+
+## Build Docker container for backend
+
+```sh
+docker-compose down -v
+docker compose up --build
+```
+
+### test it with
+
+```sh
+http://127.0.0.1:3000/ping
+```
+
+```sh
+http://127.0.0.1:3000/employees
+```
