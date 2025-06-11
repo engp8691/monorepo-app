@@ -68,6 +68,9 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
+      - name: 🧪 List Docker images for debugging
+        run: docker images
+
       - name: 📦 Tag Docker image
         run: |
           IMAGE_NAME=monorepo/backend
