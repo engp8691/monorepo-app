@@ -62,7 +62,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: us-east-2
 
       - name: 🔑 Log in to Amazon ECR
         id: login-ecr
@@ -71,12 +71,12 @@ jobs:
       - name: 🧪 List Docker images for debugging
         run: docker images
 
-      - name: 📦 Tag Docker image
+      - name: 🐳 Build Docker image for backend
         run: |
           IMAGE_NAME=monorepo/backend
           AWS_ACCOUNT_ID=456048140117
           ECR_REGISTRY=${AWS_ACCOUNT_ID}.dkr.ecr.us-east-2.amazonaws.com
-          docker tag monorepo-app_backend $ECR_REGISTRY/$IMAGE_NAME:latest
+          docker build -t $ECR_REGISTRY/$IMAGE_NAME:latest -f apps/backend/Dockerfile .
 
       - name: 📤 Push to Amazon ECR
         run: |
