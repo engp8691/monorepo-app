@@ -56,3 +56,28 @@ jobs:
       - name: 🧹 Clean up containers
         if: always()
         run: docker-compose down
+
+      - name: 🔐 Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: 🔑 Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: 📦 Tag Docker image
+        run: |
+          IMAGE_NAME=monorepo/backend
+          AWS_ACCOUNT_ID=456048140117
+          ECR_REGISTRY=${AWS_ACCOUNT_ID}.dkr.ecr.us-east-2.amazonaws.com
+          docker tag monorepo-app_backend $ECR_REGISTRY/$IMAGE_NAME:latest
+
+      - name: 📤 Push to Amazon ECR
+        run: |
+          IMAGE_NAME=monorepo/backend
+          AWS_ACCOUNT_ID=456048140117
+          ECR_REGISTRY=${AWS_ACCOUNT_ID}.dkr.ecr.us-east-2.amazonaws.com
+          docker push $ECR_REGISTRY/$IMAGE_NAME:latest
