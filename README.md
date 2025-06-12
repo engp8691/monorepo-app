@@ -2,7 +2,17 @@
 
 ## Run tasks
 
-To run the dev server for your app, use:
+### To run the dev server for your app, use:
+
+```sh
+npm install
+```
+
+### If npm install takes too long, we can try to use mirror sites with
+
+```sh
+npm config set registry https://registry.npmmirror.com
+```
 
 ```sh
 npx nx serve frontend
@@ -144,6 +154,12 @@ npm cache clean --force
 
 ```sh
 npm install
+```
+
+If npm install takes too long, we can try to use mirror sites with
+
+```sh
+npm config set registry https://registry.npmmirror.com
 ```
 
 ```sh
