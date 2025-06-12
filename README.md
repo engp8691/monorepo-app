@@ -175,14 +175,6 @@ npx ts-node ./src/grpc-chat-room/greeting.ts Yonglin 'I am From Boston'
 npx ts-node ./src/grpc-chat-room/greeting.ts Alice 'I am From New York'
 ```
 
-```sh
-npm run proto:gen-only-chat
-cd /Users/yonglinli/repo/monorepo_app/apps/grpc-api/
-npx ts-node ./src/grpc-chat-room/server.ts
-npx ts-node ./src/grpc-chat-room/client_alice.ts
-npx ts-node ./src/grpc-chat-room/client_yonglin.ts
-```
-
 ### To run and test all the clients
 
 ```sh
