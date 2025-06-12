@@ -1,11 +1,20 @@
-import { DataTypes, Model } from 'sequelize'
+import {
+  Model,
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+} from 'sequelize'
 import sequelize from '../utils/sequelize'
 
-class Employee extends Model {
-  public emp_no!: number
-  public first_name!: string
-  public last_name!: string
-  public hire_date!: number
+class Employee extends Model<
+  InferAttributes<Employee>,
+  InferCreationAttributes<Employee>
+> {
+  declare emp_no: CreationOptional<number>
+  declare first_name: string
+  declare last_name: string
+  declare hire_date: Date
 }
 
 Employee.init(
@@ -31,8 +40,8 @@ Employee.init(
   {
     sequelize,
     tableName: 'employees',
-    timestamps: false, // Disable createdAt & updatedAt
-  }
+    timestamps: false,
+  },
 )
 
 export default Employee
