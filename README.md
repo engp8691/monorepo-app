@@ -198,3 +198,9 @@ UserService:
 
 Returns user info for OrderService, PaymentService, and CustomerService
 ```
+
+## How to debug the apps in VS code debugger
+
+### Debug backend fastify app, click on the Run and Debug icon on the left side panel. And Choose 'Debug Backend in VSCode'
+
+### Debug frontend ReactJS app, start the app with `npx nx dev frontend` first, then click on the Run and Debug icon on the left side panel. Choose 'Debug ReactJS in Chrome'
