@@ -1,26 +1,26 @@
-import { Server, ServerCredentials } from '@grpc/grpc-js'
+import { Server, ServerCredentials, ServerDuplexStream } from '@grpc/grpc-js'
 import { ChatServiceService } from './generated/chat'
 import { ChatMessage } from './generated/chat'
 
-const clients: any[] = []
+const clients: ServerDuplexStream<ChatMessage, ChatMessage>[] = []
 
-const chatStream = (call: any) => {
-  clients.push(call)
+const chatStream = (stream: ServerDuplexStream<ChatMessage, ChatMessage>) => {
+  clients.push(stream)
 
-  call.on('data', (msg: ChatMessage) => {
+  stream.on('data', (msg: ChatMessage) => {
     console.log(`[${msg.sender}]: ${msg.message}`)
 
     // Broadcast to all connected clients
     clients.forEach((client) => {
-      if (client !== call) {
+      if (client !== stream) {
         client.write(msg)
       }
     })
   })
 
-  call.on('end', () => {
-    clients.splice(clients.indexOf(call), 1)
-    call.end()
+  stream.on('end', () => {
+    clients.splice(clients.indexOf(stream), 1)
+    stream.end()
   })
 }
 
@@ -29,5 +29,5 @@ server.addService(ChatServiceService, { chatStream })
 
 server.bindAsync('0.0.0.0:50051', ServerCredentials.createInsecure(), () => {
   console.log('Server running at http://0.0.0.0:50051')
-  server.start()
+  // server.start()
 })
