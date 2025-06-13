@@ -2,7 +2,17 @@
 
 ## Run tasks
 
-To run the dev server for your app, use:
+### To run the dev server for your app, use
+
+```sh
+npm install
+```
+
+### If npm install takes too long, we can try to use mirror sites with
+
+```sh
+npm config set registry https://registry.npmmirror.com
+```
 
 ```sh
 npx nx serve frontend
@@ -146,6 +156,12 @@ npm cache clean --force
 npm install
 ```
 
+If npm install takes too long, we can try to use mirror sites with
+
+```sh
+npm config set registry https://registry.npmmirror.com
+```
+
 ```sh
 npm run proto:gen
 ```
@@ -156,7 +172,26 @@ npm run proto:gen
 npm run proto:server:start
 ```
 
-### To run and check all the clients
+### To run and test the echo sample
+
+```sh
+npm run proto:gen-only-message
+cd /Users/yonglinli/repo/monorepo_app/apps/grpc-api/
+npx ts-node ./src/echo-sample/server.ts
+npx ts-node ./src/echo-sample/client.ts
+```
+
+### To run and test the chat room
+
+```sh
+npm run proto:gen-only-chat
+cd /Users/yonglinli/repo/monorepo_app/apps/grpc-api/
+npx ts-node ./src/grpc-chat-room/server.ts
+npx ts-node ./src/grpc-chat-room/greeting.ts Yonglin 'I am From Boston'
+npx ts-node ./src/grpc-chat-room/greeting.ts Alice 'I am From New York'
+```
+
+### To run and test all the clients
 
 ```sh
 npx ts-node apps/grpc-api/src/online-store-sample/clients/clients.ts
@@ -215,3 +250,9 @@ http://127.0.0.1:3000/ping
 ```sh
 http://127.0.0.1:3000/employees
 ```
+
+## How to debug the apps in VS code debugger
+
+### Debug backend fastify app, click on the Run and Debug icon on the left side panel. And Choose 'Debug Backend in VSCode'
+
+### Debug frontend ReactJS app, start the app with `npx nx dev frontend` first, then click on the Run and Debug icon on the left side panel. Choose 'Debug ReactJS in Chrome'

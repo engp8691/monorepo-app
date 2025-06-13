@@ -10,7 +10,8 @@
     "lint:all": "nx run-many --target=lint --all --parallel=5",
     "test:all": "nx run-many affected --target=test --all --parallel=5",
     "proto:server:start": "ts-node-dev --respawn --transpile-only apps/grpc-api/src/online-store-sample/grpc-server.ts",
-    "proto:gen-only-message:": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./apps/grpc-api/src/generated --proto_path=./apps/grpc-api/protos ./apps/grpc-api/protos/*.proto",
+    "proto:gen-only-message": "protoc --plugin=protoc-gen-ts_proto=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./apps/grpc-api/src/echo-sample/generated --ts_proto_opt=esModuleInterop=true,outputServices=grpc-js,env=node,useOptionals=messages --proto_path=./apps/grpc-api/src/echo-sample/protos ./apps/grpc-api/src/echo-sample/protos/*.proto",
+    "proto:gen-only-chat": "protoc --plugin=protoc-gen-ts_proto=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./apps/grpc-api/src/grpc-chat-room/generated --ts_proto_opt=esModuleInterop=true,outputServices=grpc-js,env=node,useOptionals=messages --proto_path=./apps/grpc-api/src/grpc-chat-room/protos ./apps/grpc-api/src/grpc-chat-room/protos/*.proto",
     "proto:gen": "protoc --plugin=protoc-gen-ts_proto=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./apps/grpc-api/src/online-store-sample/generated --ts_proto_opt=esModuleInterop=true,outputServices=grpc-js,env=node,useOptionals=messages --proto_path=./apps/grpc-api/src/online-store-sample/protos ./apps/grpc-api/src/online-store-sample/protos/*.proto"
   },
   "private": true,
@@ -36,6 +37,7 @@
     "ag-grid-react": "33.3.1",
     "alasql": "^4.6.6",
     "axios": "^1.9.0",
+    "date-fns": "^4.1.0",
     "fastify": "~5.2.1",
     "fastify-plugin": "~5.0.1",
     "i18next": "^25.0.2",

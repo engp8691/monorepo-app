@@ -33,6 +33,9 @@ jobs:
 
       - name: 📦 Install dependencies
         run: npm ci --legacy-peer-deps
+      - run: npm config set registry https://registry.npmmirror.com
+      - run: npm ci --legacy-peer-deps
+      # - run: npx playwright install --with-deps
       - uses: nrwl/nx-set-shas@v4
 
       - name: 🔨 Test and build all apps

@@ -11,8 +11,8 @@
       "trace": true
     },
     {
-      "command": "npx nx serve backend",
       "name": "Debug Backend in VSCode",
+      "command": "npx nx serve backend",
       "request": "launch",
       "type": "node-terminal"
     },
