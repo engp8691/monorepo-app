@@ -1,4 +1,4 @@
-name: CI
+name: CI and Deploy
 
 on:
   push:
@@ -13,31 +13,94 @@ permissions:
 jobs:
   main:
     runs-on: ubuntu-latest
+
+    services:
+      docker:
+        image: docker:24.0.2
+        options: --privileged
+
     steps:
-      - uses: actions/checkout@v4
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # This enables task distribution via Nx Cloud
-      # Run this command as early as possible, before dependencies are installed
-      # Learn more at https://nx.dev/ci/reference/nx-cloud-cli#npx-nxcloud-startcirun
-      # Uncomment this line to enable task distribution
-      # - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="e2e-ci"
-
-      # Cache node_modules
-      - uses: actions/setup-node@v4
+      - name: ⎔ Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
-      - run: npm config set registry https://registry.npmmirror.com
-      - run: npm ci --legacy-peer-deps
-      # - run: npx playwright install --with-deps
+      # - run: npm config set registry https://registry.npmmirror.com
+
+      - name: 📦 Install dependencies
+        run: npm ci --legacy-peer-deps
+
       - uses: nrwl/nx-set-shas@v4
 
-      # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
-      # - run: npx nx-cloud record -- echo Hello World
-      # Nx Affected runs only tasks affected by the changes in this PR/commit. Learn more: https://nx.dev/ci/features/affected
-      # When you enable task distribution, run the e2e-ci task instead of e2e
-      # - run: npx nx affected -t lint test build e2e
-      - run: npx nx affected -t lint test build
+      - name: 🔨 Test and build all apps
+        run: npx nx affected -t lint test build
+
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose version
+
+      - name: 🐳 Set up Docker
+        uses: docker/setup-buildx-action@v3
+
+      # - name: ⬆️ Compose Up
+      #   run: docker-compose up --build -d
+
+      # - name: Wait for backend to start
+      #   run: sleep 5
+
+      # - name: 🧪 Run health test
+      #   run: curl -f http://localhost:3000/ping || exit 1
+
+      # - name: 🧹 Clean up containers
+      #   if: always()
+      #   run: docker-compose down
+
+      - name: 🔐 Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: 🔑 Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: 🐳 Build Docker image for backend
+        run: |
+          IMAGE_NAME=monorepo_backend
+          AWS_ACCOUNT_ID=456048140117
+          ECR_REGISTRY=${AWS_ACCOUNT_ID}.dkr.ecr.us-east-2.amazonaws.com
+          docker build -t $ECR_REGISTRY/$IMAGE_NAME:latest -f apps/backend/Dockerfile .
+
+      - name: 🐳 Build Docker image for frontend
+        run: |
+          IMAGE_NAME=monorepo-frontend
+          AWS_ACCOUNT_ID=456048140117
+          ECR_REGISTRY=${AWS_ACCOUNT_ID}.dkr.ecr.us-east-2.amazonaws.com
+          docker build -t $ECR_REGISTRY/$IMAGE_NAME:latest -f apps/frontend/Dockerfile .
+
+      - name: 🧪 List Docker images for debugging
+        run: docker images
+
+      - name: 📤 Push backend image to Amazon ECR
+        run: |
+          IMAGE_NAME=monorepo_backend
+          AWS_ACCOUNT_ID=456048140117
+          ECR_REGISTRY=${AWS_ACCOUNT_ID}.dkr.ecr.us-east-2.amazonaws.com
+          docker push $ECR_REGISTRY/$IMAGE_NAME:latest
+
+      - name: 📤 Push frontend image to Amazon ECR
+        run: |
+          IMAGE_NAME=monorepo-frontend
+          AWS_ACCOUNT_ID=456048140117
+          ECR_REGISTRY=${AWS_ACCOUNT_ID}.dkr.ecr.us-east-2.amazonaws.com
+          docker push $ECR_REGISTRY/$IMAGE_NAME:latest
