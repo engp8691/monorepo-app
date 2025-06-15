@@ -1,6 +1,7 @@
 import { Box, Text, Button, Flex, IconButton, Input } from '@chakra-ui/react'
 import { LockIcon, UnlockIcon, DeleteIcon } from '@chakra-ui/icons'
 import { Fragment, memo, useCallback, useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
 type Todo = {
   id: string
@@ -55,7 +56,7 @@ export const Todos: React.FC = () => {
       <Box m="6">
         <Input w="400px" type='text' value={todoText} onChange={(e) => setTodoText(e.target.value)}></Input>
         <Button ml="4" disabled={todoText.length === 0} onClick={() => {
-          setTodos([...todos, { completed: false, name: todoText, id: crypto.randomUUID() }])
+          setTodos([...todos, { completed: false, name: todoText, id: uuidv4() }])
           setTodoText('')
         }} >Add</Button>
       </Box>
