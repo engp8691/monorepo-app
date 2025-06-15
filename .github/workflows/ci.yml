@@ -74,10 +74,6 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: 🧪 List Docker images for debugging
-        run: docker images
-
-      # not using dash but under score
       - name: 🐳 Build Docker image for backend
         run: |
           IMAGE_NAME=monorepo_backend
@@ -85,9 +81,26 @@ jobs:
           ECR_REGISTRY=${AWS_ACCOUNT_ID}.dkr.ecr.us-east-2.amazonaws.com
           docker build -t $ECR_REGISTRY/$IMAGE_NAME:latest -f apps/backend/Dockerfile .
 
-      - name: 📤 Push to Amazon ECR
+      - name: 🐳 Build Docker image for frontend
+        run: |
+          IMAGE_NAME=monorepo-frontend
+          AWS_ACCOUNT_ID=456048140117
+          ECR_REGISTRY=${AWS_ACCOUNT_ID}.dkr.ecr.us-east-2.amazonaws.com
+          docker build -t $ECR_REGISTRY/$IMAGE_NAME:latest -f apps/frontend/Dockerfile .
+
+      - name: 🧪 List Docker images for debugging
+        run: docker images
+
+      - name: 📤 Push backend image to Amazon ECR
         run: |
           IMAGE_NAME=monorepo_backend
+          AWS_ACCOUNT_ID=456048140117
+          ECR_REGISTRY=${AWS_ACCOUNT_ID}.dkr.ecr.us-east-2.amazonaws.com
+          docker push $ECR_REGISTRY/$IMAGE_NAME:latest
+
+      - name: 📤 Push frontend image to Amazon ECR
+        run: |
+          IMAGE_NAME=monorepo-frontend
           AWS_ACCOUNT_ID=456048140117
           ECR_REGISTRY=${AWS_ACCOUNT_ID}.dkr.ecr.us-east-2.amazonaws.com
           docker push $ECR_REGISTRY/$IMAGE_NAME:latest
