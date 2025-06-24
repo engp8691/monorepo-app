@@ -27,6 +27,7 @@ export default [
           ],
         },
       ],
+      'no-debugger': 'off',
     },
   },
   {
@@ -42,8 +43,8 @@ export default [
     ],
     // Override or add rules here
     rules: {
-      'quotes': ['error', 'single', { 'avoidEscape': true }],
-      'semi': ['error', 'never']
+      quotes: ['error', 'single', { avoidEscape: true }],
+      semi: ['error', 'never'],
     },
   },
 ]

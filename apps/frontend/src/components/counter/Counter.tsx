@@ -8,6 +8,8 @@ export const Display: React.FC = () => {
   const { state } = useStore()
   const prevState = usePrevious(state)
 
+  // debugger
+
   return (
     <div>
       <div className={styles.ageDisplay}>{state.name} has value {state.count}</div>
@@ -48,16 +50,16 @@ export const UnControlledComponent: FC = () => {
 
 export const Counter: React.FC = () => {
   return (
-      <StoreProvider>
-        <div className={styles.container}>
-          <Display />
-          <div className={styles.buttonGroup}>
-            <Controller type={TYPES.DECREASE} />
-            <Controller type={TYPES.INCREASE} />
-            <Controller type={TYPES.SETNAME} payload={{ name: 'Age', count: 21 }} />
-          </div>
+    <StoreProvider>
+      <div className={styles.container}>
+        <Display />
+        <div className={styles.buttonGroup}>
+          <Controller type={TYPES.DECREASE} />
+          <Controller type={TYPES.INCREASE} />
+          <Controller type={TYPES.SETNAME} payload={{ name: 'Age', count: 21 }} />
         </div>
-      </StoreProvider>
+      </div>
+    </StoreProvider>
   )
 }
 
